@@ -1,28 +1,42 @@
 import express from 'express';
 import { Request, Response } from 'express';
 const router = express.Router();
-import User from '../../models/users/index.model'
+import User from '../../models/users/index.model';
 
 /**
  *
  */
-router.get('/users', (req: Request, res: Response) => {
-  res.json({
-    name: 'test'
-  });
+router.get('/users', async (req: Request, res: Response) => {
+  await User.find({}).exec(function(err: Error, data: {}) {
+    if (err) {
+      res.json('error happened');
+    } else {
+      res.json(data);
+    }
+  })
 });
 
 /**
  *
  */
-router.post('/users', (req: Request, res: Response) => {
+router.post('/users', async (req: Request, res: Response) => {
+  console.log(req.body)
   const user = new User(req.body);
 
-  user.save(function(err: Error, data: {}) {
-    if (err) res.json('error happened');
-
-    res.json('successfully saved');
+  await user.save(function(err: Error, data: {}) {
+    if (err) {
+      res.json('error happened');
+    } else {
+      res.json('successfully saved');
+    }
   });
+
+  // const promise = user.save();
+  // assert.ok(promise instanceof Promise);
+  //
+  // promise.then(function (doc) {
+  //   assert.equal(doc.name, "Guns N' Roses");
+  // });
 });
 
 /**

@@ -5,7 +5,7 @@ import db from './config/database';
 const app = express();
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('connected to DB')
+  console.log('connected to DB');
 });
 
 app.use(function(req, res, next) {
