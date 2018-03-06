@@ -13,14 +13,13 @@ router.get('/users', async (req: Request, res: Response) => {
     } else {
       res.json(data);
     }
-  })
+  });
 });
 
 /**
  *
  */
 router.post('/users', async (req: Request, res: Response) => {
-  console.log(req.body)
   const user = new User(req.body);
 
   await user.save(function(err: Error, data: {}) {
@@ -30,27 +29,32 @@ router.post('/users', async (req: Request, res: Response) => {
       res.json('successfully saved');
     }
   });
-
-  // const promise = user.save();
-  // assert.ok(promise instanceof Promise);
-  //
-  // promise.then(function (doc) {
-  //   assert.equal(doc.name, "Guns N' Roses");
-  // });
 });
 
 /**
  *
  */
-router.put('/users/:id', (req: Request, res: Response) => {
-  res.send('Edit user');
+router.put('/users/:id', async (req: Request, res: Response) => {
+  await User.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
+    if (err) {
+      res.json('error happened');
+    } else {
+      res.json('successfully edited');
+    }
+  });
 });
 
 /**
  *
  */
 router.delete('/users/:id', (req: Request, res: Response) => {
-  res.send('Delete user');
+  User.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
+    if (err) {
+      res.json('error happened');
+    } else {
+      res.json('successfully removed');
+    }
+  });
 });
 
 module.exports = router;
