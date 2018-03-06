@@ -1,3 +1,6 @@
-// exports const Example = mongo.model('Example', {
-//     guid: { type: String, required: true }
-// });
+import mongoose from 'mongoose';
+
+const userSchema = new mongoose.Schema({
+  name: String
+});
+export default userSchema;
