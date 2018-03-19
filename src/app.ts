@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import db from './config/database';
-import json2xls from 'json2xls';
+// import json2xls from 'json2xls';
 
 const app = express();
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(json2xls.middleware);
+// app.use(json2xls.middleware);
 
 /**
  * ROUTES

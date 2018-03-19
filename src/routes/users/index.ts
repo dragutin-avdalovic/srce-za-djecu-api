@@ -1,8 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
 const router = express.Router();
-import json2xls from 'json2xls';
-import fs from 'fs';
 
 import User from '../../models/user/index.model';
 
@@ -22,18 +20,18 @@ router.get('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-router.get('/users/report', (req: Request, res: Response) => {
-  User.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
-    if (err) {
-      res.json('error happened');
-    } else {
-      const xls = json2xls(data);
-
-      fs.writeFileSync('data.xlsx', xls, 'binary');
-      res.json('created data.xlsx');
-    }
-  });
-});
+// router.get('/users/report', (req: Request, res: Response) => {
+//   User.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+//     if (err) {
+//       res.json('error happened');
+//     } else {
+//       const xls = json2xls(data);
+//
+//       fs.writeFileSync('data.xlsx', xls, 'binary');
+//       res.json('created data.xlsx');
+//     }
+//   });
+// });
 
 /**
  *

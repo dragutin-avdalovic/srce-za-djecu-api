@@ -1,8 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
 const router = express.Router();
-import json2xls from 'json2xls';
-import fs from 'fs';
 
 import AccessCard from '../../models/access-card/index.model';
 
@@ -15,22 +13,6 @@ router.get('/access-card', async (req: Request, res: Response) => {
       res.json('error happened');
     } else {
       res.json(data);
-    }
-  });
-});
-
-/**
- *
- */
-router.get('/access-card/report', (req: Request, res: Response) => {
-  AccessCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
-    if (err) {
-      res.json('error happened');
-    } else {
-      const xls = json2xls(data);
-
-      fs.writeFileSync('data.xlsx', xls, 'binary');
-      res.json('created data.xlsx');
     }
   });
 });
