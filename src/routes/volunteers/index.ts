@@ -4,13 +4,13 @@ const router = express.Router();
 import json2xls from 'json2xls';
 import fs from 'fs';
 
-import User from '../../models/user/index.model';
+import Volunteer from '../../models/volunteer/index.model';
 
 /**
  *
  */
-router.get('/users', async (req: Request, res: Response) => {
-  await User.find({}).exec(function(err: Error, data: {}) {
+router.get('/volunteers', async (req: Request, res: Response) => {
+  await Volunteer.find({}).exec(function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {
@@ -22,8 +22,8 @@ router.get('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-router.get('/users/report', (req: Request, res: Response) => {
-  User.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+router.get('/volunteers/report', (req: Request, res: Response) => {
+  Volunteer.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {
@@ -38,8 +38,8 @@ router.get('/users/report', (req: Request, res: Response) => {
 /**
  *
  */
-router.post('/users', async (req: Request, res: Response) => {
-  const user = new User(req.body);
+router.post('/volunteers', async (req: Request, res: Response) => {
+  const user = new Volunteer(req.body);
 
   await user.save(function(err: Error, data: {}) {
     if (err) {
@@ -53,8 +53,8 @@ router.post('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-router.put('/users/:id', async (req: Request, res: Response) => {
-  await User.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
+router.put('/volunteers/:id', async (req: Request, res: Response) => {
+  await Volunteer.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {
@@ -66,8 +66,8 @@ router.put('/users/:id', async (req: Request, res: Response) => {
 /**
  *
  */
-router.delete('/users/:id', (req: Request, res: Response) => {
-  User.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
+router.delete('/volunteers/:id', (req: Request, res: Response) => {
+  Volunteer.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {

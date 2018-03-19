@@ -24,7 +24,13 @@ app.use(json2xls.middleware);
  * ROUTES
  */
 const users = require('./routes/users/index');
+const accessCard = require('./routes/access-card/index');
+const socialCard = require('./routes/social-card/index');
+const volunteers = require('./routes/volunteers/index');
 
 app.use('/api/v1/', users);
+app.use('/api/v1/', accessCard);
+app.use('/api/v1/', socialCard);
+app.use('/api/v1/', volunteers);
 
 app.listen(3000, () => console.log('W-API listening on port 3000!'));
