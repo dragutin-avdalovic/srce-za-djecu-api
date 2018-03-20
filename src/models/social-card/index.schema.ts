@@ -10,6 +10,7 @@ const childSchema = new mongoose.Schema({
   address: String,
   postNumber: String,
   goingToSchool: Boolean,
+  goingToKindergarden: Boolean,
   diagnosed: Boolean,
   diagnose: String,
   dateOfDiagnose: Date,
@@ -56,8 +57,25 @@ const familySchema = new mongoose.Schema({
   familyRelations: {
     type: Number,
     enum: [0, 1, 2]
+  },
+  incomeBySalary: Boolean,
+  familyPension: Boolean,
+  unemploymentBenefit: Boolean,
+  disabilityCompensation: Boolean,
+  compensationForTheSocialProtectionSystem: Boolean,
+  otherIncome: Boolean,
+  familyResidence: {
+    type: Number,
+    enum: [0, 1, 2]
+  },
+  housingConditions: {
+    type: Number,
+    enum: [0, 1, 2]
+  },
+  residentialBuilding: {
+    type: Number,
+    enum: [0, 1, 2]
   }
-  // TODO continue filling form
 });
 
 const socialCardSchema = new mongoose.Schema({
