@@ -16,7 +16,7 @@ const childSchema = new mongoose.Schema({
   note: String,
   healthState: {
     type: Number,
-    enum: [1, 2, 3, 4]
+    enum: [0, 1, 2, 3]
   }
 });
 
@@ -55,7 +55,7 @@ const familySchema = new mongoose.Schema({
   specialNeeds: Boolean,
   familyRelations: {
     type: Number,
-    enum: [1, 2, 3]
+    enum: [0, 1, 2]
   }
   // TODO continue filling form
 });
