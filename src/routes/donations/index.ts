@@ -1,14 +1,14 @@
-  import express from 'express';
+import express from 'express';
 import { Request, Response } from 'express';
 const router = express.Router();
 
-import User from '../../models/user/index.model';
+import Donation from '../../models/donation/index.model';
 
 /**
  *
  */
-router.get('/users', async (req: Request, res: Response) => {
-  await User.find({}).exec(function(err: Error, data: {}) {
+router.get('/donations', async (req: Request, res: Response) => {
+  await Donation.find({}).exec(function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {
@@ -20,8 +20,8 @@ router.get('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-// router.get('/users/report', (req: Request, res: Response) => {
-//   User.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+// router.get('/donations/report', (req: Request, res: Response) => {
+//   Donation.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
 //     if (err) {
 //       res.json('error happened');
 //     } else {
@@ -36,8 +36,8 @@ router.get('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-router.post('/users', async (req: Request, res: Response) => {
-  const user = new User(req.body);
+router.post('/donations', async (req: Request, res: Response) => {
+  const user = new Donation(req.body);
 
   await user.save(function(err: Error, data: {}) {
     if (err) {
@@ -51,8 +51,8 @@ router.post('/users', async (req: Request, res: Response) => {
 /**
  *
  */
-router.put('/users/:id', async (req: Request, res: Response) => {
-  await User.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
+router.put('/donations/:id', async (req: Request, res: Response) => {
+  await Donation.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {
@@ -64,8 +64,8 @@ router.put('/users/:id', async (req: Request, res: Response) => {
 /**
  *
  */
-router.delete('/users/:id', (req: Request, res: Response) => {
-  User.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
+router.delete('/donations/:id', (req: Request, res: Response) => {
+  Donation.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {
       res.json('error happened');
     } else {

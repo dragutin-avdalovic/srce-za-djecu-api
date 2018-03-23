@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const donationSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -39,4 +39,4 @@ const userSchema = new mongoose.Schema({
     requireds: true
   }
 });
-export default userSchema;
+export default donationSchema;

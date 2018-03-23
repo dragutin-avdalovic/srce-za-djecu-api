@@ -23,12 +23,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /**
  * ROUTES
  */
-const users = require('./routes/users/index');
+const donations = require('./routes/donations/index');
 const accessCard = require('./routes/access-card/index');
 const socialCard = require('./routes/social-card/index');
 const volunteers = require('./routes/volunteers/index');
 
-app.use('/api/v1/', users);
+app.use('/api/v1/', donations);
 app.use('/api/v1/', accessCard);
 app.use('/api/v1/', socialCard);
 app.use('/api/v1/', volunteers);
