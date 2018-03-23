@@ -1,17 +1,47 @@
 import mongoose from 'mongoose';
 
 const volunteerSchema = new mongoose.Schema({
-  name: String,
-  dateOfBirth: Date,
-  address: String,
-  email: String,
-  phone: String,
-  qualification: String,
-  position: String,
-  volunteeredBefore: Boolean,
-  numberOfHours: Number,
+  name: {
+    type: String,
+    required: true
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    unique : true,
+    required : true,
+    dropDups: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  qualification: {
+    type: String,
+    required: true
+  },
+  position: {
+    type: String,
+    required: true
+  },
+  volunteeredBefore: {
+    type: Boolean,
+    required: true
+  },
+  numberOfHours: {
+    type: Number,
+    required: true
+  },
   healthState: {
     type: Number,
+    required: true,
     enum: [0, 1, 2, 3, 4, 5, 6, 7]
   }
 });

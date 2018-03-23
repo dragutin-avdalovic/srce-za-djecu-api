@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 const childSchema = new mongoose.Schema({
   name: String,
-  jmbg: Number,
+  jmbg: {
+    type: Number,
+    required: true
+  },
   dateOfBirth: Date,
   placeOfBirth: String,
   municipality: String,
@@ -42,7 +45,7 @@ const familyMemberSchema = new mongoose.Schema({
   name: String,
   jmbg: Number,
   relationToChild: String
-});
+}, { _id: false });
 
 const familySchema = new mongoose.Schema({
   meritalStatus: {
