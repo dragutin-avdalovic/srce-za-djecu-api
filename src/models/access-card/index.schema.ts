@@ -31,20 +31,16 @@ const accessCardSchema = new mongoose.Schema({
     enum: [0, 1, 2, 3, 4]
   },
   childName: {
-    type: String,
-    required: true
+    type: String
   },
   dateOfBirth: {
-    type: Date,
-    required: true
+    type: Date
   },
   diagnose: {
-    type: String,
-    required: true
+    type: String
   },
   dateOfDiagnose: {
-    type: Date,
-    required: true
+    type: Date
   }
 });
 export default accessCardSchema;
