@@ -27,7 +27,7 @@ const volunteerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  position: {
+  profession: {
     type: String,
     required: true
   },
