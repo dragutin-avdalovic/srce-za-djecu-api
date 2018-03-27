@@ -10,9 +10,9 @@ import AccessCard from '../../models/access-card/index.model';
 router.get('/access-card', async (req: Request, res: Response) => {
   await AccessCard.find({}).exec(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json(data);
+      res.status(200).json(data);
     }
   });
 });
@@ -25,9 +25,9 @@ router.post('/access-card', async (req: Request, res: Response) => {
 
   await user.save(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully saved');
+      res.status(200).json({ message: 'successfully saved' });
     }
   });
 });
@@ -38,9 +38,9 @@ router.post('/access-card', async (req: Request, res: Response) => {
 router.put('/access-card/:id', async (req: Request, res: Response) => {
   await AccessCard.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully edited');
+      res.status(200).json({ message: 'successfully edited' });
     }
   });
 });
@@ -51,9 +51,9 @@ router.put('/access-card/:id', async (req: Request, res: Response) => {
 router.delete('/access-card/:id', (req: Request, res: Response) => {
   AccessCard.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully removed');
+      res.status(200).json({ message: 'successfully removed' });
     }
   });
 });

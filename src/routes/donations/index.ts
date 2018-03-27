@@ -10,9 +10,9 @@ import Donation from '../../models/donation/index.model';
 router.get('/donations', async (req: Request, res: Response) => {
   await Donation.find({}).exec(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json(data);
+      res.status(200).json(data);
     }
   });
 });
@@ -41,9 +41,9 @@ router.post('/donations', async (req: Request, res: Response) => {
 
   await user.save(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully saved');
+      res.status(200).json({ message: 'successfully saved' });
     }
   });
 });
@@ -54,9 +54,9 @@ router.post('/donations', async (req: Request, res: Response) => {
 router.put('/donations/:id', async (req: Request, res: Response) => {
   await Donation.update({ _id: req.params.id }, req.body, function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully edited');
+      res.status(200).json({ message: 'successfully edited' });
     }
   });
 });
@@ -67,9 +67,9 @@ router.put('/donations/:id', async (req: Request, res: Response) => {
 router.delete('/donations/:id', (req: Request, res: Response) => {
   Donation.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {
-      res.json('error happened');
+      res.json(err);
     } else {
-      res.json('successfully removed');
+      res.status(200).json({ message: 'successfully removed' });
     }
   });
 });
