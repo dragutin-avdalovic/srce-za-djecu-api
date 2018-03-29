@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const donationSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -19,7 +19,7 @@ const donationSchema = new mongoose.Schema({
   },
   company: {
     type: String,
-    required: true
+    required: false
   },
   date: {
     type: Date,
