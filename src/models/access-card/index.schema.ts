@@ -8,8 +8,7 @@ const accessCardSchema = new mongoose.Schema({
   jmbg: {
     type: Number,
     unique : true,
-    required : true,
-    dropDups: true
+    required : true
   },
   address: {
     type: String,
@@ -22,8 +21,7 @@ const accessCardSchema = new mongoose.Schema({
   email: {
     type: String,
     unique : true,
-    required : true,
-    dropDups: true
+    required : true
   },
   type: {
     type: Number,
