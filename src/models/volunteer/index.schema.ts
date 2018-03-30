@@ -19,10 +19,7 @@ const volunteerSchema = new mongoose.Schema({
     unique: true,
     index: true
   },
-  phone: {
-    type: String,
-    required: true
-  },
+  phone: String,
   qualification: {
     type: String,
     required: true

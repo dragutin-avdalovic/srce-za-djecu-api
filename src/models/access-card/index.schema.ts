@@ -15,10 +15,7 @@ const accessCardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  phone: {
-    type: String,
-    required: true
-  },
+  phone: String,
   email: {
     type: String,
     unique : true,
