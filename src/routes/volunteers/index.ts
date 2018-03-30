@@ -8,7 +8,7 @@ import Volunteer from '../../models/volunteer/index.model';
  *
  */
 router.get('/volunteers', async (req: Request, res: Response) => {
-  await Volunteer.find({}).exec(function(err: Error, data: {}) {
+  await Volunteer.find({}).sort([['updatedAt', -1]]).exec(function(err: Error, data: {}) {
     if (err) {
       res.json(err);
     } else {

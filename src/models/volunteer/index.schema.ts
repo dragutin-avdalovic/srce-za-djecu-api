@@ -15,9 +15,9 @@ const volunteerSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique : true,
     required : true,
-    dropDups: true
+    unique: true,
+    index: true
   },
   phone: {
     type: String,
@@ -44,5 +44,5 @@ const volunteerSchema = new mongoose.Schema({
     required: true,
     enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   }
-});
+}, {timestamps: true});
 export default volunteerSchema;

@@ -8,7 +8,7 @@ import AccessCard from '../../models/access-card/index.model';
  *
  */
 router.get('/access-card', async (req: Request, res: Response) => {
-  await AccessCard.find({}).exec(function(err: Error, data: {}) {
+  await AccessCard.find({}).sort([['updatedAt', -1]]).exec(function(err: Error, data: {}) {
     if (err) {
       res.json(err);
     } else {

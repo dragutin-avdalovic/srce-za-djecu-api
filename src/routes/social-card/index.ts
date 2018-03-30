@@ -8,7 +8,7 @@ import SocialCard from '../../models/social-card/index.model';
  *
  */
 router.get('/social-card', async (req: Request, res: Response) => {
-  await SocialCard.find({}).exec(function(err: Error, data: {}) {
+  await SocialCard.find({}).sort([['updatedAt', -1]]).exec(function(err: Error, data: {}) {
     if (err) {
       res.json(err);
     } else {

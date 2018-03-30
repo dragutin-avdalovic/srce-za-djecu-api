@@ -93,5 +93,5 @@ const socialCardSchema = new mongoose.Schema({
   mother: parentSchema,
   father: parentSchema,
   family: familySchema
-});
+}, {timestamps: true});
 export default socialCardSchema;

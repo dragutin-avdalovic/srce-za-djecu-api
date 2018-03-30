@@ -8,7 +8,8 @@ const accessCardSchema = new mongoose.Schema({
   jmbg: {
     type: Number,
     unique : true,
-    required : true
+    required : true,
+    index: true
   },
   address: {
     type: String,
@@ -21,7 +22,8 @@ const accessCardSchema = new mongoose.Schema({
   email: {
     type: String,
     unique : true,
-    required : true
+    required : true,
+    index: true
   },
   type: {
     type: Number,
@@ -40,5 +42,5 @@ const accessCardSchema = new mongoose.Schema({
   dateOfDiagnose: {
     type: Date
   }
-});
+}, {timestamps: true});
 export default accessCardSchema;

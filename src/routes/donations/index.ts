@@ -8,7 +8,7 @@ import Donation from '../../models/donation/index.model';
  *
  */
 router.get('/donations', async (req: Request, res: Response) => {
-  await Donation.find({}).exec(function(err: Error, data: {}) {
+  await Donation.find({}).sort([['updatedAt', -1]]).exec(function(err: Error, data: {}) {
     if (err) {
       res.json(err);
     } else {

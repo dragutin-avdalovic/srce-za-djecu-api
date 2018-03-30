@@ -7,7 +7,9 @@ const donationSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    index: true
   },
   city: {
     type: String,
@@ -38,5 +40,5 @@ const donationSchema = new mongoose.Schema({
     type: Number,
     requireds: true
   }
-});
+}, {timestamps: true});
 export default donationSchema;
