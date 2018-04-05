@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import db from './config/database';
-// import json2xls from 'json2xls';
+import json2xls from 'json2xls';
 
 const app = express();
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(json2xls.middleware);
+app.use(json2xls.middleware);
 
 /**
  * ROUTES
@@ -27,10 +27,12 @@ const donations = require('./routes/donations/index');
 const accessCard = require('./routes/access-card/index');
 const socialCard = require('./routes/social-card/index');
 const volunteers = require('./routes/volunteers/index');
+const general = require('./routes/general/index');
 
 app.use('/api/v1/', donations);
 app.use('/api/v1/', accessCard);
 app.use('/api/v1/', socialCard);
 app.use('/api/v1/', volunteers);
+app.use('/api/v1/', general);
 
 app.listen(3000, () => console.log('W-API listening on port 3000!'));

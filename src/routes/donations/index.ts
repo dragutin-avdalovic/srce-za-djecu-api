@@ -20,22 +20,6 @@ router.get('/donations', async (req: Request, res: Response) => {
 /**
  *
  */
-// router.get('/donations/report', (req: Request, res: Response) => {
-//   Donation.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
-//     if (err) {
-//       res.json('error happened');
-//     } else {
-//       const xls = json2xls(data);
-//
-//       fs.writeFileSync('data.xlsx', xls, 'binary');
-//       res.json('created data.xlsx');
-//     }
-//   });
-// });
-
-/**
- *
- */
 router.post('/donations', async (req: Request, res: Response) => {
   const user = new Donation(req.body);
 
