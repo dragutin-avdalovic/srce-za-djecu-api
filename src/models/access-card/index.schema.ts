@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+const noteSchema = new mongoose.Schema({
+  text: String
+}, {timestamps: true});
+
 const accessCardSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -39,6 +43,6 @@ const accessCardSchema = new mongoose.Schema({
   dateOfDiagnose: {
     type: Date
   },
-  notes: Array
+  notes: [noteSchema]
 }, {timestamps: true});
 export default accessCardSchema;

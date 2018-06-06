@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+const noteSchema = new mongoose.Schema({
+  text: String
+}, {timestamps: true});
+
 const childSchema = new mongoose.Schema({
   name: String,
   jmbg: {
@@ -93,6 +97,6 @@ const socialCardSchema = new mongoose.Schema({
   mother: parentSchema,
   father: parentSchema,
   family: familySchema,
-  notes: Array
+  notes: [noteSchema]
 }, {timestamps: true});
 export default socialCardSchema;

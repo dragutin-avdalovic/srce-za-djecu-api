@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+const noteSchema = new mongoose.Schema({
+  text: String
+}, {timestamps: true});
+
 const donationSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -40,6 +44,6 @@ const donationSchema = new mongoose.Schema({
     type: Number,
     requireds: true
   },
-  notes: Array
+  notes: [noteSchema]
 }, {timestamps: true});
 export default donationSchema;
