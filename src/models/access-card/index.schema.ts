@@ -38,6 +38,7 @@ const accessCardSchema = new mongoose.Schema({
   },
   dateOfDiagnose: {
     type: Date
-  }
+  },
+  notes: Array
 }, {timestamps: true});
 export default accessCardSchema;

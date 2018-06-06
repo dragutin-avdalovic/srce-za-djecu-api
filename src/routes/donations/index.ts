@@ -48,6 +48,19 @@ router.put('/donations/:id', async (req: Request, res: Response) => {
 /**
  *
  */
+router.put('/donations/:id/notes', async (req: Request, res: Response) => {
+  await Donation.update({ _id: req.params.id }, { $push: { notes: req.body } }, function(err: Error, data: {}) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.status(200).json({ message: 'successfully added note' });
+    }
+  });
+});
+
+/**
+ *
+ */
 router.delete('/donations/:id', (req: Request, res: Response) => {
   Donation.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {

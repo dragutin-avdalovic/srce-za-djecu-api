@@ -39,6 +39,7 @@ const donationSchema = new mongoose.Schema({
   amount: {
     type: Number,
     requireds: true
-  }
+  },
+  notes: Array
 }, {timestamps: true});
 export default donationSchema;

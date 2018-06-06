@@ -48,6 +48,19 @@ router.put('/access-card/:id', async (req: Request, res: Response) => {
 /**
  *
  */
+router.put('/access-card/:id/notes', async (req: Request, res: Response) => {
+  await AccessCard.update({ _id: req.params.id }, { $push: { notes: req.body } }, function(err: Error, data: {}) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.status(200).json({ message: 'successfully added note' });
+    }
+  });
+});
+
+/**
+ *
+ */
 router.delete('/access-card/:id', (req: Request, res: Response) => {
   AccessCard.find({ _id: req.params.id }).remove().exec(function(err: Error, data: {}) {
     if (err) {
