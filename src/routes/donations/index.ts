@@ -71,4 +71,17 @@ router.delete('/donations/:id', (req: Request, res: Response) => {
   });
 });
 
+/**
+ *
+ */
+router.delete('/donations/:id/notes/:noteId', (req: Request, res: Response) => {
+  Donation.update({ _id: req.params.id }, { $pull: { notes: { _id: req.params.noteId } } }, function(err: Error, data: {}) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.status(200).json({ message: 'successfully removed item' });
+    }
+  });
+});
+
 module.exports = router;
