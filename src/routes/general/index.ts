@@ -6,6 +6,7 @@ const xlsxj = require('xlsx-to-json');
 // import * as JSPdf from "jspdf";
 import fs from 'fs';
 const router = express.Router();
+import _ from 'lodash';
 
 import Donation from '../../models/donation/index.model';
 import Volunteer from '../../models/volunteer/index.model';
@@ -71,25 +72,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
 });
 
 router.get('/import', (req: Request, res: Response) => {
-  let output: any;
-  let outputOne: any;
-  const table = '/donations';
-  // let content: any;
-  //
-  // fs.readFile(__dirname + '/simple.txt', 'UTF-8', function read(err, data) {
-  //   if (err) {
-  //     throw err;
-  //   }
-  //   content = data;
-  //
-  //   // Invoke the next step here however you like
-  //   console.log(content);   // Put all of the code here (not the best solution)
-  //   processFile();          // Or put the next step in a function and invoke it
-  // });
-  //
-  // function processFile() {
-  //   console.log(content);
-  // }
 
   xlsxj({
     input: `${__dirname}/test.xlsx`,
@@ -97,25 +79,13 @@ router.get('/import', (req: Request, res: Response) => {
     sheet: 'umain'
   }, function (err: Error, result: any) {
     if (err) {
-      console.error(err);
+      res.json(err);
     } else {
-      //  res.json(result);
-      output = result;
-      outputOne = output['0'];
-      // res.json(output['0']);
-      const donation = new Donation(outputOne);
-      // res.json(donation);
-      donation.save(function (err) {
-        if (err) {
-          console.error(err);
-          res.json(error);
-        } else {
-          res.json('saved');
-        }
-      }).then(function(users) {
-        return users
+      Donation.insertMany(result, { ordered: false }).then((data) => {
+        res.json('success');
+      }).catch((err) => {
+        res.json(err);
       });
-
     }
   });
 });
