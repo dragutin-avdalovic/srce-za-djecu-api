@@ -76,13 +76,14 @@ router.get('/import', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/test.xlsx`,
     output: 'test.json',
-    sheet: 'umain'
+    sheet: 'donators',
   }, function (err: Error, result: any) {
     if (err) {
       res.json(err);
     } else {
+      console.log(result);
       Donation.insertMany(result, { ordered: false }).then((data) => {
-        res.json('success');
+        res.json(data);
       }).catch((err) => {
         res.json(err);
       });
