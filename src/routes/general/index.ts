@@ -74,7 +74,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
 router.get('/import', (req: Request, res: Response) => {
 
   xlsxj({
-    input: `${__dirname}/test.xlsx`,
+    input: `${__dirname}/donations.xlsx`,
     output: 'test.json',
     sheet: 'donators',
   }, function (err: Error, result: any) {
