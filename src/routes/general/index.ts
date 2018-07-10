@@ -108,4 +108,28 @@ router.get('/importAccessCard', (req: Request, res: Response) => {
   });
 });
 
+router.get('/importVolunteers', (req: Request, res: Response) => {
+  xlsxj({
+    input: `${__dirname}/volunteers.xlsx`,
+    output: 'test.json',
+    sheet: 'volunteers',
+  }, function (err: Error, result: any) {
+    if (err) {
+      res.json(err);
+    } else {
+      console.log(result);
+      // result.map((singleResult) => {
+      //   const note = singleResult.note;
+      // });
+      // console.log('rez poslije');
+      // console.log(result);
+      Volunteer.insertMany(result, { ordered: false }).then((data) => {
+        res.json(data);
+      }).catch((err) => {
+        res.json(err);
+      });
+    }
+    });
+  });
+
 module.exports = router;
