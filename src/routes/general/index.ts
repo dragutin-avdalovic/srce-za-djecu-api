@@ -71,7 +71,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
 
 });
 
-router.get('/importDonation', (req: Request, res: Response) => {
+router.get('/importDonations', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/donations.xlsx`,
     output: 'test.json',
@@ -80,6 +80,7 @@ router.get('/importDonation', (req: Request, res: Response) => {
     if (err) {
       res.json(err);
     } else {
+      console.log('Donation: ');
       console.log(result);
       Donation.insertMany(result, { ordered: false }).then((data) => {
         res.json(data);
@@ -123,13 +124,13 @@ router.get('/importVolunteers', (req: Request, res: Response) => {
       // });
       // console.log('rez poslije');
       // console.log(result);
-      Volunteer.insertMany(result, { ordered: false }).then((data) => {
+      Volunteer.insertMany(result, {ordered: false}).then((data) => {
         res.json(data);
       }).catch((err) => {
         res.json(err);
       });
     }
-    });
   });
+}
 
 module.exports = router;
