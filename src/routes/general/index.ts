@@ -137,6 +137,7 @@ router.get('/importSocialCards', (req: Request, res: Response) => {
     if (err) {
       res.json(err);
     } else {
+      console.log('rezultat');
       console.log(result);
       SocialCard.insertMany(result, {ordered: false}).then((data) => {
         res.json(data);
