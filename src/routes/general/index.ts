@@ -86,19 +86,32 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // ROUTE FOR FILE UPLAOD
-router.post('uploads/', upload.single('data'), async (req: any, res: Response) => {
+router.post('/uploads/:type', upload.single('data'), async (req: any, res: Response) => {
   const result = excelToJson({
     sourceFile: 'uploads/' + req.file.originalname,
     columnToKey: {
       '*': '{{columnHeader}}'
     }
   });
-  console.log(result['Sheet 1'].slice(1, result.length));
-  // await CompanyService.create(result['Sheet 1'].slice(1, result.length)).then((response: any) => {
-  //   res.json(response);
-  // }).catch((e: Error) => {
-  //   res.json(e);
-  // });
+  switch (req.param.type) {
+    case 'donation':
+      res.json('donation')
+      console.log('Donation');
+      console.log(result['Sheet 1'].slice(1, result.length));
+      break;
+    case 'access-card':
+      console.log('Access card');
+      console.log(result['Sheet 1'].slice(1, result.length));
+      break;
+    case 'social-card':
+      console.log('Social card');
+      console.log(result['Sheet 1'].slice(1, result.length));
+      break;
+    default:
+      console.log('Type is missing');
+      console.log(result['Sheet 1'].slice(1, result.length));
+      break;
+  }
 });
 
 router.get('/importDonations', (req: Request, res: Response) => {
