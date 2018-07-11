@@ -102,6 +102,14 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
         res.json(err);
       });
       break;
+    case 'volunteer':
+      console.log('Volunteer');
+      await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}).then((data) => {
+        res.json(data);
+      }).catch((err) => {
+        res.json(err);
+      });
+      break;
     case 'access-card':
       console.log('Access card');
       console.log(result['Sheet 1'].slice(1, result.length));
