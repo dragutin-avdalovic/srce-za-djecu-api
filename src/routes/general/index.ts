@@ -123,17 +123,55 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       const socialCardArray = [];
       const resultObject = result['socialCard'].slice(1, result['socialCard'].length - 1);
       resultObject.forEach((socialCard: any) => {
-        const socialCardObject = { child: {}, mother: {}, father: {}, family: {}};
-        const socialCardKeyArray = socialCard.key.split('_');
-        console.log(socialCardKeyArray[0]);
-        console.log(socialCardKeyArray[1]);
-        // Object.defineProperties(socialCardObject, 'name', {
-        //   value: onkeyd,
-        //   writable: true
-        // });
-        console.log(socialCard);
+        const socialCardObject = {child: {}, mother: {}, father: {}, family: {}};
+        const socialCardKeysArray = Object.keys(socialCard);
+        socialCardKeysArray.forEach((key: any) => {
+          if (key.includes('child')) {
+            const fullKeyChild = key;
+            const keyChild = key.split('_');
+            console.log(keyChild[0]);
+            Object.defineProperty(socialCardObject['child'], keyChild[0], {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+              value: socialCard[fullKeyChild]
+            });
+          } else if (key.includes('father')) {
+            const fullKeyFather = key;
+            const keyFather = key.split('_');
+            console.log(keyFather[0]);
+            Object.defineProperty(socialCardObject['father'], keyFather[0], {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+              value: socialCard[fullKeyFather]
+            });
+          } else if (key.includes('mother')) {
+            const fullKeyMother = key;
+            const keyMother = key.split('_');
+            console.log(keyMother[0]);
+            Object.defineProperty(socialCardObject['mother'], keyMother[0], {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+              value: socialCard[fullKeyMother]
+            });
+          } else if (key.includes('family')) {
+            const fullKeyFamily = key;
+            const keyFamily = key.split('_');
+            console.log(keyFamily[0]);
+            Object.defineProperty(socialCardObject['family'], keyFamily[0], {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+              value: socialCard[fullKeyFamily]
+            });
+          }
+        });
+        socialCardArray.push(socialCardObject);
+        console.log(socialCardArray);
+        res.json(socialCardArray);
       });
-      res.json(resultObject);
       break;
     default:
       console.log('Type is missing');
