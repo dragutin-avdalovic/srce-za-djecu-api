@@ -120,13 +120,14 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       break;
     case 'social-card':
       console.log('Social card');
-      const socialCardArray = [];
-      const resultObject = result['socialCard'].slice(1, result['socialCard'].length - 1);
+      const socialCardArray: any = [];
+      const resultObject = result['socialCard'].slice(1, result['socialCard'].length);
       resultObject.forEach((socialCard: any) => {
         const socialCardObject = {child: {}, mother: {}, father: {}, family: {}};
         const socialCardKeysArray = Object.keys(socialCard);
         socialCardKeysArray.forEach((key: any) => {
           if (key.includes('child')) {
+            console.log('child');
             const fullKeyChild = key;
             const keyChild = key.split('_');
             console.log(keyChild[0]);
@@ -137,6 +138,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
               value: socialCard[fullKeyChild]
             });
           } else if (key.includes('father')) {
+            console.log('gather');
             const fullKeyFather = key;
             const keyFather = key.split('_');
             console.log(keyFather[0]);
@@ -147,6 +149,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
               value: socialCard[fullKeyFather]
             });
           } else if (key.includes('mother')) {
+            console.log('mother');
             const fullKeyMother = key;
             const keyMother = key.split('_');
             console.log(keyMother[0]);
@@ -157,6 +160,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
               value: socialCard[fullKeyMother]
             });
           } else if (key.includes('family')) {
+            console.log('family');
             const fullKeyFamily = key;
             const keyFamily = key.split('_');
             console.log(keyFamily[0]);
@@ -169,9 +173,9 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
           }
         });
         socialCardArray.push(socialCardObject);
-        console.log(socialCardArray);
-        res.json(socialCardArray);
       });
+      console.log(socialCardArray);
+      res.json(socialCardArray);
       break;
     default:
       console.log('Type is missing');
