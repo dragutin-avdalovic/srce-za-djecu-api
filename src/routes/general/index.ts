@@ -93,11 +93,14 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       '*': '{{columnHeader}}'
     }
   });
-  switch (req.param.type) {
+  switch (req.params.type) {
     case 'donation':
-      res.json('donation')
       console.log('Donation');
-      console.log(result['Sheet 1'].slice(1, result.length));
+      await Donation.insertMany(result['donators'].slice(1, result.length), {ordered: false}).then((data) => {
+        res.json(data);
+      }).catch((err) => {
+        res.json(err);
+      });
       break;
     case 'access-card':
       console.log('Access card');
