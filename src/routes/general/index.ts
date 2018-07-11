@@ -73,6 +73,16 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
 
 });
 
+// file upload const
+const storage = multer.diskStorage({
+  destination: function (req: Request, file: any, cb: Function) {
+    cb(undefined, 'uploads/');
+  },
+  filename: function (req: Request, file: any, cb: Function) {
+    cb(undefined, file.originalname);
+  }
+});
+
 router.get('/importDonations', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/donations.xlsx`,
