@@ -120,7 +120,20 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       break;
     case 'social-card':
       console.log('Social card');
-      console.log(result['Sheet 1'].slice(1, result.length));
+      const socialCardArray = [];
+      const resultObject = result['socialCard'].slice(1, result['socialCard'].length - 1);
+      resultObject.forEach((socialCard: any) => {
+        const socialCardObject = { child: {}, mother: {}, father: {}, family: {}};
+        const socialCardKeyArray = socialCard.key.split('_');
+        console.log(socialCardKeyArray[0]);
+        console.log(socialCardKeyArray[1]);
+        // Object.defineProperties(socialCardObject, 'name', {
+        //   value: onkeyd,
+        //   writable: true
+        // });
+        console.log(socialCard);
+      });
+      res.json(resultObject);
       break;
     default:
       console.log('Type is missing');
