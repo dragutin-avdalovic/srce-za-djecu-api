@@ -2,6 +2,8 @@ import express from 'express';
 import { Request, Response } from 'express';
 const json2xls = require('json2xls');
 const xlsxj = require('xlsx-to-json');
+const excelToJson = require('convert-excel-to-json');
+const multer = require('multer');
 // const jsPDF = require('jspdf');
 // import * as JSPdf from "jspdf";
 import fs from 'fs';
@@ -136,8 +138,8 @@ router.get('/importSocialCards', (req: Request, res: Response) => {
   }, function (err: Error, result: any) {
     if (err) {
       res.json(err);
+      console.log(result);
     } else {
-      console.log('rezultat');
       console.log(result);
       SocialCard.insertMany(result, {ordered: false}).then((data) => {
         res.json(data);
