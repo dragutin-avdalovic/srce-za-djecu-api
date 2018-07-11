@@ -120,7 +120,6 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       break;
     default:
       console.log('Type is missing');
-      console.log(result['Sheet 1'].slice(1, result.length));
       break;
   }
 });
