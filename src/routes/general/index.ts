@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 const json2xls = require('json2xls');
-const xlsxj = require('xlsx-to-json');
+// const xlsxj = require('xlsx-to-json');
 const excelToJson = require('convert-excel-to-json');
 const multer = require('multer');
 // const jsPDF = require('jspdf');
@@ -85,7 +85,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// ROUTE FOR FILE UPLAOD
+// ROUTE FOR FILE UPLOAD AND IMPORT IN LIVE TABLE FROM EXCEL TEMPLATE SPREADSHEET
 router.post('/uploads/:type', upload.single('data'), async (req: any, res: Response) => {
   const result = excelToJson({
     sourceFile: 'uploads/' + req.file.originalname,
@@ -174,7 +174,8 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
   }
 });
 
-router.get('/importDonations', (req: Request, res: Response) => {
+/*Old functions for import*/
+/*router.get('/importDonations', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/donations.xlsx`,
     output: 'test.json',
@@ -208,7 +209,6 @@ router.get('/importAccessCard', (req: Request, res: Response) => {
     }
   });
 });
-
 router.get('/importVolunteers', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/volunteers.xlsx`,
@@ -226,7 +226,6 @@ router.get('/importVolunteers', (req: Request, res: Response) => {
     }
   });
 });
-
 router.get('/importSocialCards', (req: Request, res: Response) => {
   xlsxj({
     input: `${__dirname}/social-card.xlsx`,
@@ -244,5 +243,5 @@ router.get('/importSocialCards', (req: Request, res: Response) => {
     }
   });
 });
-
+*/
 module.exports = router;
