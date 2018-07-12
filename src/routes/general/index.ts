@@ -123,7 +123,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
       const socialCardArray: any = [];
       const resultObject = result['socialCard'].slice(1, result['socialCard'].length);
       resultObject.forEach((socialCard: any) => {
-        const socialCardObject = {child: {}, mother: {}, father: {}, family: {}};
+        const socialCardObject = {child: {}, mother: {}, father: {}, family: { familyMembers: [{}] }, notes: [{}]};
         const socialCardKeysArray = Object.keys(socialCard);
         socialCardKeysArray.forEach((key: any) => {
           if (key.includes('child')) {
@@ -174,8 +174,11 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
         });
         socialCardArray.push(socialCardObject);
       });
-      console.log(socialCardArray);
-      res.json(socialCardArray);
+      SocialCard.insertMany(socialCardArray).then((docs) => {
+        res.json(docs);
+      }).catch((err) => {
+        res.json(err);
+      });
       break;
     default:
       console.log('Type is missing');
