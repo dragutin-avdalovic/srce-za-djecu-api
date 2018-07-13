@@ -87,90 +87,120 @@ const upload = multer({ storage: storage });
 
 // ROUTE FOR FILE UPLOAD AND IMPORT IN LIVE TABLE FROM EXCEL TEMPLATE SPREADSHEET
 router.post('/uploads/:type', upload.single('data'), async (req: any, res: Response) => {
-  const result = excelToJson({
-    sourceFile: 'uploads/' + req.file.originalname,
-    columnToKey: {
-      '*': '{{columnHeader}}'
-    }
-  });
-  switch (req.params.type) {
-    case 'donation':
-      await Donation.insertMany(result['donators'].slice(1, result.length), {ordered: false}).then((data) => {
-        res.json(data);
-      }).catch((err) => {
-        res.json(err);
-      });
-      break;
-    case 'volunteer':
-      await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}).then((data) => {
-        res.json(data);
-      }).catch((err) => {
-        res.json(err);
-      });
-      break;
-    case 'access-card':
-      await AccessCard.insertMany(result['access-card'].slice(1, result.length), {ordered: false}).then((data) => {
-        res.json(data);
-      }).catch((err) => {
-        res.json(err);
-      });
-      break;
-    case 'social-card':
-      const socialCardArray: any = [];
-      const resultObject = result['socialCard'].slice(1, result['socialCard'].length);
-      resultObject.forEach((socialCard: any) => {
-        const socialCardObject = {child: {}, mother: {}, father: {}, family: { familyMembers: [{}] }, notes: [{}]};
-        const socialCardKeysArray = Object.keys(socialCard);
-        socialCardKeysArray.forEach((key: any) => {
-          if (key.includes('child')) {
-            const fullKeyChild = key;
-            const keyChild = key.split('_');
-            Object.defineProperty(socialCardObject['child'], keyChild[0], {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: socialCard[fullKeyChild]
-            });
-          } else if (key.includes('father')) {
-            const fullKeyFather = key;
-            const keyFather = key.split('_');
-            Object.defineProperty(socialCardObject['father'], keyFather[0], {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: socialCard[fullKeyFather]
-            });
-          } else if (key.includes('mother')) {
-            const fullKeyMother = key;
-            const keyMother = key.split('_');
-            Object.defineProperty(socialCardObject['mother'], keyMother[0], {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: socialCard[fullKeyMother]
-            });
-          } else if (key.includes('family')) {
-            const fullKeyFamily = key;
-            const keyFamily = key.split('_');
-            Object.defineProperty(socialCardObject['family'], keyFamily[0], {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: socialCard[fullKeyFamily]
-            });
-          }
+  const fileType = req.file.originalname.split('.').pop();
+  if (fileType === 'xlsx') {
+    const result = excelToJson({
+      sourceFile: 'uploads/' + req.file.originalname,
+      columnToKey: {
+        '*': '{{columnHeader}}'
+      }
+    });
+    switch (req.params.type) {
+      case 'donation':
+        if (Object.keys(result).includes('donators')) {
+          await Donation.insertMany(result['donators'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(response);
+          });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
+        break;
+      case 'volunteer':
+        if (Object.keys(result).includes('volunteers')) {
+          await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(response);
+          });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
+        break;
+      case 'access-card':
+        if (Object.keys(result).includes('access-card')) {
+          await AccessCard.insertMany(result['access-card'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(response);
+          });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
+        break;
+      case 'social-card':
+        if (Object.keys(result).includes('socialCard')) {
+        const socialCardArray: any = [];
+        const resultObject = result['socialCard'].slice(1, result['socialCard'].length);
+        resultObject.forEach((socialCard: any) => {
+          const socialCardObject = {child: {}, mother: {}, father: {}, family: {familyMembers: [{}]}, notes: [{}]};
+          const socialCardKeysArray = Object.keys(socialCard);
+          socialCardKeysArray.forEach((key: any) => {
+            if (key.includes('child')) {
+              const fullKeyChild = key;
+              const keyChild = key.split('_');
+              Object.defineProperty(socialCardObject['child'], keyChild[0], {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: socialCard[fullKeyChild]
+              });
+            } else if (key.includes('father')) {
+              const fullKeyFather = key;
+              const keyFather = key.split('_');
+              Object.defineProperty(socialCardObject['father'], keyFather[0], {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: socialCard[fullKeyFather]
+              });
+            } else if (key.includes('mother')) {
+              const fullKeyMother = key;
+              const keyMother = key.split('_');
+              Object.defineProperty(socialCardObject['mother'], keyMother[0], {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: socialCard[fullKeyMother]
+              });
+            } else if (key.includes('family')) {
+              const fullKeyFamily = key;
+              const keyFamily = key.split('_');
+              Object.defineProperty(socialCardObject['family'], keyFamily[0], {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: socialCard[fullKeyFamily]
+              });
+            }
+          });
+          socialCardArray.push(socialCardObject);
         });
-        socialCardArray.push(socialCardObject);
-      });
-      SocialCard.insertMany(socialCardArray).then((docs) => {
-        res.json(docs);
-      }).catch((err) => {
-        res.json(err);
-      });
-      break;
-    default:
-      console.log('Type is missing');
-      break;
+        SocialCard.insertMany(socialCardArray, {ordered: false}, function (err: any, response: any) {
+          if (err) {
+            res.json(err);
+          }
+          res.json(response);
+        });
+        SocialCard.insertMany(socialCardArray).then((docs) => {
+          res.json(docs);
+        }).catch((err) => {
+          res.json(err);
+        });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
+        break;
+      default:
+        console.log('Type is missing');
+        break;
+    }
+  } else {
+    res.json('Valid file format is .xlsx format');
   }
 });
 
