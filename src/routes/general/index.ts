@@ -109,11 +109,16 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
         }
         break;
       case 'volunteer':
-        await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}).then((data) => {
-          res.json(data);
-        }).catch((err) => {
-          res.json(err);
-        });
+        if (Object.keys(result).includes('volunteers')) {
+          await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(response);
+          });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
         break;
       case 'access-card':
         if (Object.keys(result).includes('access-card')) {
@@ -128,6 +133,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
         }
         break;
       case 'social-card':
+        if (Object.keys(result).includes('socialCard')) {
         const socialCardArray: any = [];
         const resultObject = result['socialCard'].slice(1, result['socialCard'].length);
         resultObject.forEach((socialCard: any) => {
@@ -174,11 +180,20 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
           });
           socialCardArray.push(socialCardObject);
         });
+        SocialCard.insertMany(socialCardArray, {ordered: false}, function (err: any, response: any) {
+          if (err) {
+            res.json(err);
+          }
+          res.json(response);
+        });
         SocialCard.insertMany(socialCardArray).then((docs) => {
           res.json(docs);
         }).catch((err) => {
           res.json(err);
         });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
         break;
       default:
         console.log('Type is missing');
