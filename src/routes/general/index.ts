@@ -97,11 +97,16 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
     });
     switch (req.params.type) {
       case 'donation':
-        await Donation.insertMany(result['donators'].slice(1, result.length), {ordered: false}).then((data) => {
-          res.json(data);
-        }).catch((err) => {
-          res.json(err);
-        });
+        if (Object.keys(result).includes('donators')) {
+          await Donation.insertMany(result['donators'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(response);
+          });
+        } else {
+          res.json('Wrong .xlsx file selected.');
+        }
         break;
       case 'volunteer':
         await Volunteer.insertMany(result['volunteers'].slice(1, result.length), {ordered: false}).then((data) => {
