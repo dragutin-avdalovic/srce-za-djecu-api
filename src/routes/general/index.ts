@@ -111,7 +111,7 @@ router.post('/uploads/:type', upload.single('data'), async (req: any, res: Respo
         });
         break;
       case 'access-card':
-        if (res.json(Object.keys(result).includes('access-card'))) {
+        if (Object.keys(result).includes('access-card')) {
           await AccessCard.insertMany(result['access-card'].slice(1, result.length), {ordered: false}, function (err: any, response: any) {
             if (err) {
               res.json(err);
