@@ -20,12 +20,23 @@ import SocialCard from '../../models/social-card/index.model';
  */
 router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   if (req.params.segment === 'donations') {
-    Donation.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+    Donation.find().select({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
         res.json('error happened');
       } else {
         console.log(data);
-        const xls = json2xls(data);
+        const xls = json2xls(data, {
+          fields: {name: 'string',
+          email: 'string',
+          city: 'string',
+          address: 'string',
+          company: 'string',
+          date: 'date',
+          type: 'number',
+          cause: 'string',
+          amount: 'number'}
+        });
+        console.log(xls);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
         const file = __dirname + '/data.xlsx';
@@ -37,7 +48,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
-        res.json(data)
+        console.log(data);
         const xls = json2xls(data);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
@@ -48,7 +59,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   } else if (req.params.segment === 'access-card') {
     AccessCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
-        console.log(data)
+        console.log(data);
         res.json('error happened');
       } else {
         const xls = json2xls(data);
