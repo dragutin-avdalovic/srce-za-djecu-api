@@ -31,7 +31,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           city: 'string',
           address: 'string',
           company: 'string',
-          date: 'date',
+          date: 'string',
           type: 'number',
           cause: 'string',
           amount: 'number'}
