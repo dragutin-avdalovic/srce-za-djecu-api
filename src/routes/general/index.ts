@@ -24,6 +24,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
+        console.log(data);
         const xls = json2xls(data);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
@@ -32,10 +33,11 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+    Volunteer.find().exec(function(err: Error, data: {}) {
       if (err) {
         res.json('error happened');
       } else {
+        res.json(data)
         const xls = json2xls(data);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
@@ -46,6 +48,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   } else if (req.params.segment === 'access-card') {
     AccessCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
+        console.log(data)
         res.json('error happened');
       } else {
         const xls = json2xls(data);
