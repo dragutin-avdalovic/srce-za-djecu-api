@@ -44,12 +44,23 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find().exec(function(err: Error, data: {}) {
+    Volunteer.find({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
         res.json('error happened');
       } else {
         console.log(data);
-        const xls = json2xls(data);
+        const xls = json2xls(data,{
+          fields: {name: 'string',
+            dateOfBirth: 'string',
+            address: 'string',
+            email: 'string',
+            phone: 'number',
+            qualification: 'string',
+            profession: 'string',
+            volunteeredBefore: 'number',
+            numberOfHours: 'number',
+            jobsToVolunteer: 'number'}
+        });
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
         const file = __dirname + '/data.xlsx';
