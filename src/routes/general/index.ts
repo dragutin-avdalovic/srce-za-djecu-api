@@ -44,13 +44,14 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
+    Volunteer.find({ '__v': 0, 'updatedAt': 0, 'createdAt' : 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
-        res.json('error happened');
+        res.json(err);
       } else {
         console.log(data);
-        const xls = json2xls(data,{
-          fields: {name: 'string',
+        const xls = json2xls(data, {
+          fields: {
+            name: 'string',
             dateOfBirth: 'string',
             address: 'string',
             email: 'string',
