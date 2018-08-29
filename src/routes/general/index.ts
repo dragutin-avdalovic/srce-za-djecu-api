@@ -9,6 +9,7 @@ const multer = require('multer');
 import fs from 'fs';
 const router = express.Router();
 import _ from 'lodash';
+const flatten = require('flat')
 
 import Donation from '../../models/donation/index.model';
 import Volunteer from '../../models/volunteer/index.model';
@@ -26,18 +27,19 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       } else {
         console.log(data);
         const xls = json2xls(data, {
-          fields: {name: 'string',
-          email: 'string',
-          city: 'string',
-          address: 'string',
-          company: 'string',
-          date: 'string',
-          type: 'number',
-          cause: 'string',
-          amount: 'number'}
+          fields: {name: 'string'}
         });
-        console.log(xls);
-
+        const obj = {
+          key1: {
+            keyA: 'valueI'
+          },
+          key2: {
+            keyB: 'valueII'
+          },
+          key3: { a: { b: { c: 2 } } }
+        }
+        const obj2 = flatten(obj)
+        console.log('obj', obj2)
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
         const file = __dirname + '/data.xlsx';
         res.download(file);
