@@ -9,7 +9,7 @@ const multer = require('multer');
 import fs from 'fs';
 const router = express.Router();
 import _ from 'lodash';
-const flatten = require('flat')
+const flatten = require('flat');
 
 import Donation from '../../models/donation/index.model';
 import Volunteer from '../../models/volunteer/index.model';
@@ -21,25 +21,34 @@ import SocialCard from '../../models/social-card/index.model';
  */
 router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   if (req.params.segment === 'donations') {
-    Donation.find().select({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
+    Donation.find().select({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
         res.json('error happened');
       } else {
         console.log(data);
-        const xls = json2xls(data, {
-          fields: {name: 'string'}
+        data.forEach((donator: any) => {
+          if (donator.type === 0) {
+            donator.type = 'Institucija';
+          } else if (donator.type === 1) {
+            donator.type = 'Fizičko lice';
+          }  else if (donator.type === 2) {
+            donator.type = 'Pravno lice';
+          }
+          donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3] ;
+          donator.amount = donator.amount + ' KM';
         });
-        const obj = {
-          key1: {
-            keyA: 'valueI'
-          },
-          key2: {
-            keyB: 'valueII'
-          },
-          key3: { a: { b: { c: 2 } } }
-        }
-        const obj2 = flatten(obj)
-        console.log('obj', obj2)
+        const xls = json2xls(data, {
+          fields: {
+            name: 'string',
+            email: 'string',
+            city: 'string',
+            address: 'string',
+            company: 'string',
+            date: 'string',
+            type: 'string',
+            cause: 'string',
+            amount: 'string'}
+        });
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
         const file = __dirname + '/data.xlsx';
         res.download(file);
@@ -50,6 +59,18 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json(err);
       } else {
+        // const obj = {
+        //   key1: {
+        //     keyA: 'valueI'
+        //   },
+        //   key2: {
+        //     keyB: 'valueII'
+        //   },
+        //   key3: { a: { b: { c: 2 } } }
+        // }
+        // const obj2 = flatten(obj)
+        // console.log('obj', obj)
+        // console.log('obj2', obj2)
         console.log(data);
         const xls = json2xls(data, {
           fields: {
