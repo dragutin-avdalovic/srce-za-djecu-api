@@ -34,7 +34,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           }  else if (donator.type === 2) {
             donator.type = 'Pravno lice';
           }
-          donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3] + ' ' + String(donator.date).split(' ')[4];
+          donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3];
           donator.amount = donator.amount + ' KM';
         });
         const xls = json2xls(data, {
@@ -55,7 +55,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find({ '__v': 0, 'updatedAt': 0, 'createdAt' : 0}).lean().exec(function(err: Error, data: {}) {
+    Volunteer.find({ '__v': 0, 'updatedAt': 0, 'createdAt' : 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
         res.json(err);
       } else {
@@ -72,6 +72,14 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         // console.log('obj', obj)
         // console.log('obj2', obj2)
         console.log(data);
+        data.forEach((volunteer: any) => {
+          volunteer.dateOfBirth = String(volunteer.dateOfBirth).split(' ')[2] + '-' + String(volunteer.dateOfBirth).split(' ')[1] + '-' + String(volunteer.dateOfBirth).split(' ')[3];
+          if (volunteer.volunteeredBefore === 0) {
+            volunteer.volunteeredBefore = 'Da';
+          } else {
+            volunteer.volunteeredBefore = 'Ne';
+          }
+        });
         const xls = json2xls(data, {
           fields: {
             name: 'string',
