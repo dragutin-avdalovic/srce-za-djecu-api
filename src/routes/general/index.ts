@@ -34,7 +34,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           }  else if (donator.type === 2) {
             donator.type = 'Pravno lice';
           }
-          donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3] ;
+          donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3] + ' ' + String(donator.date).split(' ')[4];
           donator.amount = donator.amount + ' KM';
         });
         const xls = json2xls(data, {
