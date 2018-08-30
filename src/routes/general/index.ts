@@ -157,14 +157,40 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
-        const flattenData = []
         data.forEach((Scard: any) => {
-          Scard = flatten(Scard);
-          flattenData.push(Scard);
+          Scard.child.dateOfBirth = String(Scard.child.dateOfBirth).split(' ')[2] + '-' + String(Scard.child.dateOfBirth).split(' ')[1] + '-' + String(Scard.child.dateOfBirth).split(' ')[3];
+          if (Scard.child.goingToSchool === false) {
+            Scard.child.goingToSchool = 'Ne';
+          } else if ( Scard.child.goingToSchool === true) {
+            Scard.child.goingToSchool = 'Da';
+          }
+          if (Scard.child.goingToKindergarden === false) {
+            Scard.child.goingToKindergarden = 'Ne';
+          } else if ( Scard.child.goingToKindergarden === true) {
+            Scard.child.goingToKindergarden = 'Da';
+          }
+          if (Scard.child.diagnosed === false) {
+            Scard.child.diagnosed = 'Ne';
+          } else if ( Scard.child.diagnosed === true) {
+            Scard.child.diagnosed = 'Da';
+          }
+          Scard.child.dateOfDiagnose = String(Scard.child.dateOfDiagnose).split(' ')[2] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[1] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[3];
+          if (Scard.child.healthState === 0) {
+            Scard.child.healthState = 'Izliječeno';
+          } else if (Scard.child.healthState === 1) {
+            Scard.child.healthState = 'Završilo sa liječenjem i održavanjem';
+          } else if (Scard.child.healthState === 2) {
+            Scard.child.healthState = 'Na održavanju';
+          } else if (Scard.child.healthState === 3) {
+            Scard.child.healthState = 'Ostalo';
+          }
         });
-        console.log(flattenData)
-        const xls = json2xls(flattenData, {
-          fields: ['child.name', 'child.jmbg']});
+        console.log(data)
+        const xls = json2xls(data, {
+          fields: {'child.name': 'string', 'child.jmbg': 'string', 'child.dateOfBirth': 'string', 'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
+          'child.goingToSchool': 'string', 'child.goingToKindergarden': 'string', 'child.diagnosed': 'string', 'child.diagnose': 'string', 'child.dateOfDiagnose': 'string', 'child.healthState': 'string', 'mother.name': 'string',
+          'mother.jmbg': 'string', 'mother.citizenId': 'string', 'mother.issuedBy': 'string',  'mother.municipality': 'string',  'mother.city': 'string',  'mother.address': 'string',
+          'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string'}});
 
         fs.writeFileSync(__dirname + '/social-card.xlsx', xls, 'binary');
         const file = __dirname + '/social-card.xlsx';
