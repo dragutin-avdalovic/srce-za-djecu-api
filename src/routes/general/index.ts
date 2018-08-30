@@ -49,8 +49,8 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             cause: 'string',
             amount: 'string'}
         });
-        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
-        const file = __dirname + '/data.xlsx';
+        fs.writeFileSync(__dirname + '/donations.xlsx', xls, 'binary');
+        const file = __dirname + '/donations.xlsx';
         res.download(file);
       }
     });
@@ -105,18 +105,18 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             jobsToVolunteer: 'string'}
         });
 
-        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
-        const file = __dirname + '/data.xlsx';
+        fs.writeFileSync(__dirname + '/volunteers.xlsx', xls, 'binary');
+        const file = __dirname + '/volunteers.xlsx';
         res.download(file);
       }
     });
   } else if (req.params.segment === 'access-card') {
-    AccessCard.find().select({ 'updatedAt': 0, 'createdAt': 0, '__v': 0, '_id': 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
+    AccessCard.find().select({ 'updatedAt': 0, 'createdAt': 0, '__v': 0, '_id': 0, notes: 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
         console.log(data);
         res.json('error happened');
       } else {
-        console.log(data)
+        console.log(data);
         data.forEach((card: any) => {
           card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
           card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
@@ -147,8 +147,8 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             dateOfDiagnose: 'string'}
         });
 
-        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
-        const file = __dirname + '/data.xlsx';
+        fs.writeFileSync(__dirname + '/access-card.xlsx', xls, 'binary');
+        const file = __dirname + '/access-card.xlsx';
         res.download(file);
       }
     });
