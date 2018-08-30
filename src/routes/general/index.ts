@@ -164,7 +164,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         console.log(flattenData)
         const xls = json2xls(flattenData, {
-          fields: { 'child.name': 'string' }});
+          fields: ['child.name', 'child.jmbg']});
 
         fs.writeFileSync(__dirname + '/social-card.xlsx', xls, 'binary');
         const file = __dirname + '/social-card.xlsx';
