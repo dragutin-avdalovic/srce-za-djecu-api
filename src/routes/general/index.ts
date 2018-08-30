@@ -194,6 +194,92 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           } else if ( Scard.father.working === true) {
             Scard.father.working = 'Da';
           }
+          if (Scard.family.meritalStatus === 0) {
+            Scard.family.meritalStatus = 'Neoženjen/Neudata';
+          } else if (Scard.family.meritalStatus  === 1) {
+            Scard.family.meritalStatus = 'Oženjen/Udata';
+          } else if (Scard.family.meritalStatus  === 2) {
+            Scard.family.meritalStatus  = 'Udovac/ica';
+          } else if (Scard.family.meritalStatus  === 3) {
+            Scard.family.meritalStatus  = 'Razveden/a';
+          } else if (Scard.family.meritalStatus  === 4) {
+            Scard.family.meritalStatus  = 'Ostalo';
+          }
+          if (Scard.family.chronicalDecease === false) {
+            Scard.family.chronicalDecease = 'Ne';
+          } else if ( Scard.family.chronicalDecease === true) {
+            Scard.family.chronicalDecease = 'Da';
+          }
+          if (Scard.family.disability === false) {
+            Scard.family.disability = 'Ne';
+          } else if ( Scard.family.disability === true) {
+            Scard.family.disability = 'Da';
+          }
+          if (Scard.family.specialNeeds === false) {
+            Scard.family.specialNeeds = 'Ne';
+          } else if ( Scard.family.specialNeeds === true) {
+            Scard.family.specialNeeds = 'Da';
+          }
+          if (Scard.family.familyRelations === 0) {
+            Scard.family.familyRelations = 'Dobri';
+          } else if (Scard.family.familyRelations  === 1) {
+            Scard.family.familyRelations = 'Odlični';
+          } else if (Scard.family.familyRelations  === 2) {
+            Scard.family.familyRelations  = 'Problematični';
+          }
+          if (Scard.family.incomeBySalary === false) {
+            Scard.family.incomeBySalary = 'Ne';
+          } else if ( Scard.family.incomeBySalary === true) {
+            Scard.family.incomeBySalary = 'Da';
+          }
+          if (Scard.family.familyPension === false) {
+            Scard.family.familyPension = 'Ne';
+          } else if ( Scard.family.familyPension === true) {
+            Scard.family.familyPension = 'Da';
+          }
+          if (Scard.family.unemploymentBenefit === false) {
+            Scard.family.unemploymentBenefit = 'Ne';
+          } else if ( Scard.family.unemploymentBenefit === true) {
+            Scard.family.unemploymentBenefit = 'Da';
+          }
+          if (Scard.family.disabilityCompensation === false) {
+            Scard.family.disabilityCompensation = 'Ne';
+          } else if ( Scard.family.disabilityCompensation === true) {
+            Scard.family.disabilityCompensation = 'Da';
+          }
+          if (Scard.family.compensationForTheSocialProtectionSystem === false) {
+            Scard.family.compensationForTheSocialProtectionSystem = 'Ne';
+          } else if ( Scard.family.compensationForTheSocialProtectionSystem === true) {
+            Scard.family.compensationForTheSocialProtectionSystem = 'Da';
+          }
+          if (Scard.family.otherIncome === false) {
+            Scard.family.otherIncome = 'Ne';
+          } else if ( Scard.family.otherIncome === true) {
+            Scard.family.otherIncome = 'Da';
+          }
+          if (Scard.family.familyResidence === 0) {
+            Scard.family.familyResidence = 'Kuća';
+          } else if (Scard.family.familyResidence  === 1) {
+            Scard.family.familyResidence = 'Stan';
+          } else if (Scard.family.familyResidence  === 2) {
+            Scard.family.familyResidence  = 'Ostalo';
+          }
+          if (Scard.family.housingConditions === 0) {
+            Scard.family.housingConditions = 'Dobri';
+          } else if (Scard.family.housingConditions  === 1) {
+            Scard.family.housingConditions = 'Odlični';
+          } else if (Scard.family.housingConditions  === 2) {
+            Scard.family.housingConditions  = 'Zadovoljavajući';
+          }
+          if (Scard.family.residentialBuilding === 0) {
+            Scard.family.residentialBuilding = 'U sopstvenom vlasništvu';
+          } else if (Scard.family.residentialBuilding  === 1) {
+            Scard.family.residentialBuilding = 'Iznajmljen';
+          } else if (Scard.family.residentialBuilding  === 2) {
+            Scard.family.residentialBuilding  = 'Vlasništvu roditelja/srodnika';
+          } else if (Scard.family.residentialBuilding  === 3) {
+            Scard.family.residentialBuilding  = 'Ostalo';
+          }
         });
         console.log(data)
         const xls = json2xls(data, {
