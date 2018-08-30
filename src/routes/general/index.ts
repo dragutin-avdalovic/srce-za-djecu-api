@@ -111,9 +111,50 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'access-card') {
-    AccessCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+    AccessCard.find().select({ 'updatedAt': 0, 'createdAt': 0, '__v': 0, '_id': 0, notes: 0}).lean().exec(function(err: Error, data: {}) {
       if (err) {
         console.log(data);
+        res.json('error happened');
+      } else {
+        console.log(data)
+        data.forEach((card: any) => {
+          card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
+          card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
+          if (card.type === 0) {
+            card.type = 'Roditelj';
+          } else if (card.type === 1) {
+            card.type = 'Prijatelj';
+          } else if (card.type === 2) {
+            card.type = 'Medicinsko osoblje';
+          } else if (card.type === 3) {
+            card.type = 'Volonter';
+          } else if (card.type === 4) {
+            card.type = 'Osoblje';
+          }
+        });
+
+        const xls  = json2xls(data, {
+          fields: {
+            name: 'string',
+            jmbg: 'string',
+            address: 'string',
+            phone: 'string',
+            email: 'string',
+            type: 'string',
+            childName: 'string',
+            dateOfBirth: 'string',
+            diagnose: 'string',
+            dateOfDiagnose: 'string'}
+        });
+
+        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
+        const file = __dirname + '/data.xlsx';
+        res.download(file);
+      }
+    });
+  } else if (req.params.segment === 'social-card') {
+    SocialCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+      if (err) {
         res.json('error happened');
       } else {
         // const obj = {
@@ -128,18 +169,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         // const obj2 = flatten(obj)
         // console.log('obj', obj)
         // console.log('obj2', obj2)
-        const xls = json2xls(data);
-
-        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
-        const file = __dirname + '/data.xlsx';
-        res.download(file);
-      }
-    });
-  } else if (req.params.segment === 'social-card') {
-    SocialCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
-      if (err) {
-        res.json('error happened');
-      } else {
         const xls = json2xls(data);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
