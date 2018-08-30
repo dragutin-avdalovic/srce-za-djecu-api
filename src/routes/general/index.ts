@@ -203,7 +203,10 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string',  'mother.working': 'string',  'mother.position': 'string',  'mother.qualifications': 'string',
           'mother.nameOfEmployer': 'string',  'father.name': 'string', 'father.jmbg': 'string', 'father.citizenId': 'string', 'father.issuedBy': 'string',  'father.municipality': 'string',  'father.city': 'string',  'father.address': 'string',
           'father.postNumber': 'string',  'father.tel': 'string',  'father.mob': 'string',  'father.working': 'string',  'father.position': 'string',  'father.qualifications': 'string',
-          'father.nameOfEmployer': 'string'}});
+          'father.nameOfEmployer': 'string', 'family.meritalStatus': 'string',  'family.chronicalDecease': 'string',  'family.chronicalDeceaseText': 'string',  'family.disability': 'string',
+          'family.disabilityText': 'string', 'family.specialNeeds': 'string', 'family.familyRelations': 'string', 'family.incomeBySalary': 'string', 'family.incomeBySalaryText': 'string', 'family.familyPension': 'string', 'family.familyPensionText': 'string', 'family.unemploymentBenefit': 'string', 'family.unemploymentBenefitText': 'string',
+          'family.disabilityCompensation': 'string', 'family.disabilityCompensationText': 'string', 'family.compensationForTheSocialProtectionSystem': 'string', 'family.compensationForTheSocialProtectionSystemText': 'string', 'family.otherIncome': 'string', 'family.otherIncomeText': 'string',
+          'family.familyResidence': 'string', 'family.housingConditions': 'string',  'family.residentialBuilding': 'string'}});
 
         fs.writeFileSync(__dirname + '/social-card.xlsx', xls, 'binary');
         const file = __dirname + '/social-card.xlsx';
