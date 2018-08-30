@@ -55,43 +55,54 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find({ '__v': 0, 'updatedAt': 0, 'createdAt' : 0}).lean().exec(function(err: Error, data: any) {
+    Volunteer.find().lean().exec(function(err: Error, data: any) {
       if (err) {
         res.json(err);
       } else {
-        // const obj = {
-        //   key1: {
-        //     keyA: 'valueI'
-        //   },
-        //   key2: {
-        //     keyB: 'valueII'
-        //   },
-        //   key3: { a: { b: { c: 2 } } }
-        // }
-        // const obj2 = flatten(obj)
-        // console.log('obj', obj)
-        // console.log('obj2', obj2)
-        console.log(data);
         data.forEach((volunteer: any) => {
           volunteer.dateOfBirth = String(volunteer.dateOfBirth).split(' ')[2] + '-' + String(volunteer.dateOfBirth).split(' ')[1] + '-' + String(volunteer.dateOfBirth).split(' ')[3];
-          if (volunteer.volunteeredBefore === 0) {
+          if (volunteer.volunteeredBefore === true) {
             volunteer.volunteeredBefore = 'Da';
-          } else {
+          } else if (volunteer.volunteeredBefore === false) {
             volunteer.volunteeredBefore = 'Ne';
           }
+          if (volunteer.jobsToVolunteer === 0) {
+            volunteer.jobsToVolunteer = 'Kreativne radionice sa djecom';
+          } else if (volunteer.jobsToVolunteer === 1) {
+            volunteer.jobsToVolunteer = 'Okupacione radionice sa roditeljima oboljele djece';
+          } else if (volunteer.jobsToVolunteer === 2) {
+            volunteer.jobsToVolunteer = 'Psihološka podrška roditeljima';
+          } else if (volunteer.jobsToVolunteer === 3) {
+            volunteer.jobsToVolunteer = 'Poslovi na unutrašnjem održavanju kuće';
+          } else if (volunteer.jobsToVolunteer === 4) {
+            volunteer.jobsToVolunteer = 'Poslovi na održavanju parka';
+          } else if (volunteer.jobsToVolunteer === 5) {
+            volunteer.jobsToVolunteer = 'Psihološka podrška roditeljima';
+          } else if (volunteer.jobsToVolunteer === 6) {
+            volunteer.jobsToVolunteer = 'Marketinške usluge';
+          } else if (volunteer.jobsToVolunteer === 7) {
+            volunteer.jobsToVolunteer = 'Prevodilačke usluge';
+          } else if (volunteer.jobsToVolunteer === 8) {
+            volunteer.jobsToVolunteer = 'Usluge prevoza djece na liječenje van BiH';
+          } else if (volunteer.jobsToVolunteer === 9) {
+            volunteer.jobsToVolunteer = 'Rad na projektu "Moja kosa tvoja kosa';
+          } else if (volunteer.jobsToVolunteer === 10) {
+            volunteer.jobsToVolunteer = 'Rad na projektu "Rehabilitacioni kamp';
+          }
+          volunteer.numberOfHours = volunteer.numberOfHours + ' sati';
         });
-        const xls = json2xls(data, {
+        const xls  = json2xls(data, {
           fields: {
             name: 'string',
             dateOfBirth: 'string',
             address: 'string',
             email: 'string',
-            phone: 'number',
+            phone: 'string',
             qualification: 'string',
             profession: 'string',
-            volunteeredBefore: 'number',
-            numberOfHours: 'number',
-            jobsToVolunteer: 'number'}
+            volunteeredBefore: 'string',
+            numberOfHours: 'string',
+            jobsToVolunteer: 'string'}
         });
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
@@ -105,6 +116,18 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         console.log(data);
         res.json('error happened');
       } else {
+        // const obj = {
+        //   key1: {
+        //     keyA: 'valueI'
+        //   },
+        //   key2: {
+        //     keyB: 'valueII'
+        //   },
+        //   key3: { a: { b: { c: 2 } } }
+        // }
+        // const obj2 = flatten(obj)
+        // console.log('obj', obj)
+        // console.log('obj2', obj2)
         const xls = json2xls(data);
 
         fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
