@@ -184,13 +184,26 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           } else if (Scard.child.healthState === 3) {
             Scard.child.healthState = 'Ostalo';
           }
+          if (Scard.mother.working === false) {
+            Scard.mother.working = 'Ne';
+          } else if ( Scard.mother.working === true) {
+            Scard.mother.working = 'Da';
+          }
+          if (Scard.father.working === false) {
+            Scard.father.working = 'Ne';
+          } else if ( Scard.father.working === true) {
+            Scard.father.working = 'Da';
+          }
         });
         console.log(data)
         const xls = json2xls(data, {
           fields: {'child.name': 'string', 'child.jmbg': 'string', 'child.dateOfBirth': 'string', 'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
           'child.goingToSchool': 'string', 'child.goingToKindergarden': 'string', 'child.diagnosed': 'string', 'child.diagnose': 'string', 'child.dateOfDiagnose': 'string', 'child.healthState': 'string', 'mother.name': 'string',
           'mother.jmbg': 'string', 'mother.citizenId': 'string', 'mother.issuedBy': 'string',  'mother.municipality': 'string',  'mother.city': 'string',  'mother.address': 'string',
-          'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string'}});
+          'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string',  'mother.working': 'string',  'mother.position': 'string',  'mother.qualifications': 'string',
+          'mother.nameOfEmployer': 'string',  'father.name': 'string', 'father.jmbg': 'string', 'father.citizenId': 'string', 'father.issuedBy': 'string',  'father.municipality': 'string',  'father.city': 'string',  'father.address': 'string',
+          'father.postNumber': 'string',  'father.tel': 'string',  'father.mob': 'string',  'father.working': 'string',  'father.position': 'string',  'father.qualifications': 'string',
+          'father.nameOfEmployer': 'string'}});
 
         fs.writeFileSync(__dirname + '/social-card.xlsx', xls, 'binary');
         const file = __dirname + '/social-card.xlsx';
