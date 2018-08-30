@@ -153,26 +153,21 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'social-card') {
-    SocialCard.find().select({ '__v': 0, '_id': 0}).lean().exec(function(err: Error, data: {}) {
+    SocialCard.find().select({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt': 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
         res.json('error happened');
       } else {
-        // const obj = {
-        //   key1: {
-        //     keyA: 'valueI'
-        //   },
-        //   key2: {
-        //     keyB: 'valueII'
-        //   },
-        //   key3: { a: { b: { c: 2 } } }
-        // }
-        // const obj2 = flatten(obj)
-        // console.log('obj', obj)
-        // console.log('obj2', obj2)
-        const xls = json2xls(data);
+        const flattenData = []
+        data.forEach((Scard: any) => {
+          Scard = flatten(Scard);
+          flattenData.push(Scard);
+        });
+        console.log(flattenData)
+        const xls = json2xls(flattenData, {
+          fields: { 'child.name': 'string' }});
 
-        fs.writeFileSync(__dirname + '/data.xlsx', xls, 'binary');
-        const file = __dirname + '/data.xlsx';
+        fs.writeFileSync(__dirname + '/social-card.xlsx', xls, 'binary');
+        const file = __dirname + '/social-card.xlsx';
         res.download(file);
       }
     });
