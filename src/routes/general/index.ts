@@ -154,7 +154,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   } else if (req.params.segment === 'access-card') {
     AccessCard.find().select({ 'updatedAt': 0, 'createdAt': 0, '__v': 0, '_id': 0, notes: 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
-        console.log(data);
         res.json('error happened');
       } else {
         data.forEach((card: any) => {
@@ -172,7 +171,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             card.type = 'Osoblje';
           }
         });
-        console.log(data);
         const newKeys = [
           'Ime i prezime',
           'JMBG',
