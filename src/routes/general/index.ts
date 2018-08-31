@@ -37,22 +37,52 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3];
           donator.amount = donator.amount + ' KM';
         });
+        const newKeys = [
+          'Osnovni podaci',
+          'Email',
+          'Grad',
+          'Adresa',
+          'Kompanija',
+          'Datum',
+          'Tip',
+          'Svrha',
+          'Iznos'
+        ];
+        console.log('before', data)
+        data.forEach((donator: any) => {
+          let i = 0;
+          let old_key = ''
+          newKeys.forEach((new_key: any) => {
+            old_key = Object.keys(donator)[i];
+            console.log(old_key);
+            Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
+            i++;
+          });
+        });
+        // newKeys.forEach((new_key: any) => {
+        //   if (old_key !== new_key) {
+        //     Object.defineProperty(data, new_key,
+        //         Object.getOwnPropertyDescriptor(data, old_key));
+        //     delete o[old_key];
+        //   }
+        // });
+        console.log(data);
+
         const xls = json2xls(data, {
           fields: {
-            name: 'string',
-            email: 'string',
-            city: 'string',
-            address: 'string',
-            company: 'string',
-            date: 'string',
-            type: 'string',
-            cause: 'string',
-            amount: 'string'}
+            'Osnovni podaci': 'string',
+            Email: 'string',
+            Grad: 'string',
+            Adresa: 'string',
+            Kompanija: 'string',
+            Datum: 'string',
+            Tip: 'string',
+            Svrha: 'string',
+            Iznos: 'string'}
         });
         fs.writeFileSync(__dirname + '/donations.xlsx', xls, 'binary');
         const file = __dirname + '/donations.xlsx';
         res.download(file);
-      }
     });
   } else if (req.params.segment === 'volunteers') {
     Volunteer.find().lean().exec(function(err: Error, data: any) {
@@ -281,7 +311,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             Scard.family.residentialBuilding  = 'Ostalo';
           }
         });
-        console.log(data)
+        console.log(data);
         const xls = json2xls(data, {
           fields: {'child.name': 'string', 'child.jmbg': 'string', 'child.dateOfBirth': 'string', 'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
           'child.goingToSchool': 'string', 'child.goingToKindergarden': 'string', 'child.diagnosed': 'string', 'child.diagnose': 'string', 'child.dateOfDiagnose': 'string', 'child.healthState': 'string', 'mother.name': 'string',
