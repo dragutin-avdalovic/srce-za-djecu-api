@@ -50,7 +50,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         ];
         data.forEach((donator: any) => {
           let i = 0;
-          let old_key = ''
+          let old_key = '';
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(donator)[i];
             console.log(old_key);
@@ -77,7 +77,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       }
     });
   } else if (req.params.segment === 'volunteers') {
-    Volunteer.find().lean().exec(function(err: Error, data: any) {
+    Volunteer.find().select({ '__v': 0, '_id': 0, 'updatedAt': 0, 'createdAt' : 0, notes: 0}).lean().exec(function(err: Error, data: any) {
       if (err) {
         res.json(err);
       } else {
@@ -113,18 +113,41 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           }
           volunteer.numberOfHours = volunteer.numberOfHours + ' sati';
         });
+        console.log(data);
+        const newKeys = [
+          'Ime i prezime',
+          'Datum rodjenja',
+          'Adresa',
+          'E-mail',
+          'Kontakt telefon',
+          'Strucna sprema',
+          'Zanimanje',
+          'Volontirao prije',
+          'Broj sati',
+          'Volontirani poslovi'
+        ];
+        data.forEach((donator: any) => {
+          let i = 0;
+          let old_key = '';
+          newKeys.forEach((new_key: any) => {
+            old_key = Object.keys(donator)[i];
+            console.log(old_key);
+            Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
+            i++;
+          });
+        });
         const xls  = json2xls(data, {
           fields: {
-            name: 'string',
-            dateOfBirth: 'string',
-            address: 'string',
-            email: 'string',
-            phone: 'string',
-            qualification: 'string',
-            profession: 'string',
-            volunteeredBefore: 'string',
-            numberOfHours: 'string',
-            jobsToVolunteer: 'string'}
+            'Ime i prezime': 'string',
+            'Datum rodjenja': 'string',
+            'Adresa': 'string',
+            'E-mail': 'string',
+            'Kontakt telefon': 'string',
+            'Strucna sprema': 'string',
+            'Zanimanje': 'string',
+            'Volontirao prije': 'string',
+            'Broj sati': 'string',
+            'Volontirani posao': 'string'}
         });
 
         fs.writeFileSync(__dirname + '/volunteers.xlsx', xls, 'binary');
