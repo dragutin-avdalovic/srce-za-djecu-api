@@ -31,7 +31,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             donator.type = 'Institucija';
           } else if (donator.type === 1) {
             donator.type = 'Fizičko lice';
-          }  else if (donator.type === 2) {
+          } else if (donator.type === 2) {
             donator.type = 'Pravno lice';
           }
           donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3];
@@ -39,16 +39,15 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const newKeys = [
           'Osnovni podaci',
-          'Email',
+          'E-mail',
           'Grad',
           'Adresa',
-          'Kompanija',
-          'Datum',
+          'Naziv kompanije',
+          'Datum donacije',
           'Tip',
           'Svrha',
-          'Iznos'
+          'Iznos (KM)'
         ];
-        console.log('before', data)
         data.forEach((donator: any) => {
           let i = 0;
           let old_key = ''
@@ -59,30 +58,23 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             i++;
           });
         });
-        // newKeys.forEach((new_key: any) => {
-        //   if (old_key !== new_key) {
-        //     Object.defineProperty(data, new_key,
-        //         Object.getOwnPropertyDescriptor(data, old_key));
-        //     delete o[old_key];
-        //   }
-        // });
-        console.log(data);
-
         const xls = json2xls(data, {
           fields: {
             'Osnovni podaci': 'string',
-            Email: 'string',
+            'E-mail': 'string',
             Grad: 'string',
             Adresa: 'string',
-            Kompanija: 'string',
-            Datum: 'string',
+            'Naziv kompanije': 'string',
+            'Datum donacije': 'string',
             Tip: 'string',
             Svrha: 'string',
-            Iznos: 'string'}
+            'Iznos (KM)': 'string'
+          }
         });
         fs.writeFileSync(__dirname + '/donations.xlsx', xls, 'binary');
         const file = __dirname + '/donations.xlsx';
         res.download(file);
+      }
     });
   } else if (req.params.segment === 'volunteers') {
     Volunteer.find().lean().exec(function(err: Error, data: any) {
