@@ -25,7 +25,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
-        console.log(data);
         data.forEach((donator: any) => {
           if (donator.type === 0) {
             donator.type = 'Institucija';
@@ -53,7 +52,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           let old_key = '';
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(donator)[i];
-            console.log(old_key);
             Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
             i++;
           });
@@ -71,8 +69,8 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             'Iznos (KM)': 'string'
           }
         });
-        fs.writeFileSync(__dirname + '/donations.xlsx', xls, 'binary');
-        const file = __dirname + '/donations.xlsx';
+        fs.writeFileSync(__dirname + '/donatori.xlsx', xls, 'binary');
+        const file = __dirname + '/donatori.xlsx';
         res.download(file);
       }
     });
@@ -113,7 +111,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           }
           volunteer.numberOfHours = volunteer.numberOfHours + ' sati';
         });
-        console.log(data);
         const newKeys = [
           'Ime i prezime',
           'Datum rodjenja',
@@ -131,7 +128,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           let old_key = '';
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(donator)[i];
-            console.log(old_key);
             Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
             i++;
           });
@@ -147,11 +143,11 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             'Zanimanje': 'string',
             'Volontirao prije': 'string',
             'Broj sati': 'string',
-            'Volontirani posao': 'string'}
+            'Volontirani poslovi': 'string'}
         });
 
-        fs.writeFileSync(__dirname + '/volunteers.xlsx', xls, 'binary');
-        const file = __dirname + '/volunteers.xlsx';
+        fs.writeFileSync(__dirname + '/volonteri.xlsx', xls, 'binary');
+        const file = __dirname + '/volonteri.xlsx';
         res.download(file);
       }
     });
@@ -161,7 +157,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         console.log(data);
         res.json('error happened');
       } else {
-        console.log(data);
         data.forEach((card: any) => {
           card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
           card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
@@ -177,23 +172,45 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             card.type = 'Osoblje';
           }
         });
-
-        const xls  = json2xls(data, {
+        console.log(data);
+        const newKeys = [
+          'Ime i prezime',
+          'JMBG',
+          'Adresa',
+          'Telefon',
+          'E-mail',
+          'Tip',
+          'Ime djeteta',
+          'Datum rodjenja',
+          'Dijagnoza',
+          'Datum dijagnoze'
+        ];
+        data.forEach((donator: any) => {
+          let i = 0;
+          let old_key = '';
+          newKeys.forEach((new_key: any) => {
+            old_key = Object.keys(donator)[i];
+            Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
+            i++;
+          });
+        });
+        const xls = json2xls(data, {
           fields: {
-            name: 'string',
-            jmbg: 'string',
-            address: 'string',
-            phone: 'string',
-            email: 'string',
-            type: 'string',
-            childName: 'string',
-            dateOfBirth: 'string',
-            diagnose: 'string',
-            dateOfDiagnose: 'string'}
+            'Ime i prezime': 'string',
+            'JMBG': 'string',
+            Adresa: 'string',
+            Telefon: 'string',
+            'E-mail': 'string',
+            Tip: 'string',
+            'Ime djeteta': 'string',
+            'Datum rodjenja': 'string',
+            Dijagnoza: 'string',
+            'Datum dijagnoze': 'string'
+          }
         });
 
-        fs.writeFileSync(__dirname + '/access-card.xlsx', xls, 'binary');
-        const file = __dirname + '/access-card.xlsx';
+        fs.writeFileSync(__dirname + '/pristupnica.xlsx', xls, 'binary');
+        const file = __dirname + '/pristupnica.xlsx';
         res.download(file);
       }
     });
