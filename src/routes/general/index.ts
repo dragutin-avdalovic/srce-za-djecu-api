@@ -10,6 +10,7 @@ import fs from 'fs';
 const router = express.Router();
 import _ from 'lodash';
 const flatten = require('flat');
+const rename = require('deep-rename-keys');
 
 import Donation from '../../models/donation/index.model';
 import Volunteer from '../../models/volunteer/index.model';
@@ -217,6 +218,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
+        for (const key in data) {
+          // keys
+          console.log( key );  // name, age, isAdmin
+          // values for the keys
+          console.log( data[key] ); // John, 30, true
+        }
         data.forEach((Scard: any) => {
           Scard.child.dateOfBirth = String(Scard.child.dateOfBirth).split(' ')[2] + '-' + String(Scard.child.dateOfBirth).split(' ')[1] + '-' + String(Scard.child.dateOfBirth).split(' ')[3];
           if (Scard.child.goingToSchool === false) {
