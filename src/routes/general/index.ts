@@ -10,7 +10,6 @@ import fs from 'fs';
 const router = express.Router();
 import _ from 'lodash';
 const flatten = require('flat');
-const rename = require('deep-rename-keys');
 
 import Donation from '../../models/donation/index.model';
 import Volunteer from '../../models/volunteer/index.model';
@@ -157,7 +156,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
-        data.forEach((card: any) => {
+          data.forEach((card: any) => {
           card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
           card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
           if (card.type === 0) {
@@ -218,11 +217,40 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
       if (err) {
         res.json('error happened');
       } else {
-        for (const key in data) {
+          const rename = require('deep-rename-keys');
+          const newData = rename(data, function(key: any) {
+              if (key === 'child') return 'Dijete';
+              else if (key === 'name') return 'Ime';
+              else if (key === 'jmbg') return 'JMBG';
+              else if (key === 'dateOfBirth') return 'Datum rodjenja';
+              else if (key === 'placeOfBirth') return 'Mjesto rodjenja';
+              else if (key === 'municipality') return 'Opština';
+              else if (key === 'city') return 'Grad';
+              else if (key === 'address') return 'Adresa';
+              else if (key === 'postNumber') return 'Poštanski broj';
+              else if (key === 'goingToSchool') return 'Ide u školu';
+              else if (key === 'goingToKindergarden') return 'Ide u vrtić';
+              else if (key === 'diagnosed') return 'Dijagnostifikovana';
+              else if (key === 'diagnose') return 'Dijagnoza';
+              else if (key === 'dateOfDiagnose') return 'Datum dijagnoze';
+              else if (key === 'healthState') return 'Zdravstveno stanje';
+              else if (key === 'citizenId') return 'Broj lične karte';
+              else if (key === 'issuedBy') return 'Izdato od strane';
+              else if (key === 'tel') return 'Telefon';
+              else if (key === 'mob') return 'Mobilni telefon';
+              else if (key === 'working') return 'Radi';
+              else if (key === 'position') return 'Pozicija';
+              else if (key === 'qualifications') return 'Kvalifikacije';
+              else if (key === 'nameOfEmployer') return 'Ime poslodavca';
+              else if (key === 'mother') return 'Majka';
+              else if (key === 'father') return 'Otac';
+              return key;
+          });
+        for (const key in newData) {
           // keys
           console.log( key );  // name, age, isAdmin
           // values for the keys
-          console.log( data[key] ); // John, 30, true
+          console.log( newData[key] ); // John, 30, true
         }
         data.forEach((Scard: any) => {
           Scard.child.dateOfBirth = String(Scard.child.dateOfBirth).split(' ')[2] + '-' + String(Scard.child.dateOfBirth).split(' ')[1] + '-' + String(Scard.child.dateOfBirth).split(' ')[3];
