@@ -264,18 +264,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               else if (key === 'disabilityCompensationText') return 'Opis dodatka na invalidnost';
               else if (key === 'familyResidence') return 'Mjesto stanovanja';
               else if (key === 'housingConditions') return 'Uslovi stanovanja';
-              else if (key === 'residentialBuilding') return 'Stambena zgrada';
+              else if (key === 'residentialBuilding') return 'Vrsta rezidencije';
               else if (key === 'family') return 'Porodica';
               else if (key === 'familyMembers') return 'Članovi porodice';
               else if (key === 'father') return 'Otac';
               return key;
           });
-        for (const key in newData) {
-          // keys
-          console.log( key );  // name, age, isAdmin
-          // values for the keys
-          console.log( newData[key] ); // John, 30, true
-        }
           newData.forEach((Scard: any) => {
           Scard.Dijete['Datum rodjenja'] = String(Scard.Dijete['Datum rodjenja']).split(' ')[2] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[1] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[3];
           if (Scard.Dijete['Ide u školu'] === false) {
@@ -294,14 +288,14 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             Scard.Dijete['Dijagnostifikovana bolest'] = 'Da';
           }
           Scard.Dijete['Datum dijagnoze'] = String(Scard.Dijete['Datum dijagnoze']).split(' ')[2] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[1] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[3];
-          if (Scard.Dijete['Datum dijagnoze'] === 0) {
-            Scard.Dijete['Datum dijagnoze'] = 'Izliječeno';
-          } else if (Scard.Dijete['Datum dijagnoze'] === 1) {
-            Scard.Dijete['Datum dijagnoze'] = 'Završilo sa liječenjem i održavanjem';
-          } else if (Scard.Dijete['Datum dijagnoze'] === 2) {
-            Scard.Dijete['Datum dijagnoze'] = 'Na održavanju';
-          } else if (Scard.Dijete['Datum dijagnoze'] === 3) {
-            Scard.Dijete['Datum dijagnoze'] = 'Ostalo';
+              if (Scard.Dijete['Zdravstveno stanje'] === 0) {
+            Scard.Dijete['Zdravstveno stanje'] = 'Izliječeno';
+          } else if (Scard.Dijete['Zdravstveno stanje'] === 1) {
+            Scard.Dijete['Zdravstveno stanje'] = 'Završilo sa liječenjem i održavanjem';
+          } else if (Scard.Dijete['Zdravstveno stanje'] === 2) {
+            Scard.Dijete['Zdravstveno stanje'] = 'Na održavanju';
+          } else if (Scard.Dijete['Zdravstveno stanje'] === 3) {
+            Scard.Dijete['Zdravstveno stanje'] = 'Ostalo';
           }
           if (Scard.Majka['Radi'] === false) {
             Scard.Majka['Radi'] = 'Ne';
@@ -390,18 +384,24 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           } else if (Scard.Porodica['Uslovi stanovanja']  === 2) {
             Scard.Porodica['Uslovi stanovanja']  = 'Zadovoljavajući';
           }
-          if (Scard.Porodica['Stambena zgrada'] === 0) {
-            Scard.Porodica['Stambena zgrada'] = 'U sopstvenom vlasništvu';
-          } else if (Scard.Porodica['Stambena zgrada']  === 1) {
-            Scard.Porodica['Stambena zgrada'] = 'Iznajmljen';
-          } else if (Scard.Porodica['Stambena zgrada']  === 2) {
-            Scard.Porodica['Stambena zgrada']  = 'Vlasništvu roditelja/srodnika';
-          } else if (Scard.Porodica['Stambena zgrada']  === 3) {
-            Scard.Porodica['Stambena zgrada']  = 'Ostalo';
+          if (Scard.Porodica['Vrsta rezidencije'] === 0) {
+            Scard.Porodica['Vrsta rezidencije'] = 'U sopstvenom vlasništvu';
+          } else if (Scard.Porodica['Vrsta rezidencije']  === 1) {
+            Scard.Porodica['Vrsta rezidencije'] = 'Iznajmljen';
+          } else if (Scard.Porodica['Vrsta rezidencije']  === 2) {
+            Scard.Porodica['Vrsta rezidencije']  = 'Vlasništvu roditelja/srodnika';
+          } else if (Scard.Porodica['Vrsta rezidencije']  === 3) {
+            Scard.Porodica['Vrsta rezidencije']  = 'Ostalo';
           }
         });
-        const xls = json2xls(data, {
-          fields: {'child.name': 'string', 'child.jmbg': 'string', 'child.dateOfBirth': 'string', 'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
+          for (const key in newData) {
+              // keys
+              console.log( key );  // name, age, isAdmin
+              // values for the keys
+              console.log( newData[key] ); // John, 30, true
+          }
+        const xls = json2xls(newData, {
+          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', /*'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
           'child.goingToSchool': 'string', 'child.goingToKindergarden': 'string', 'child.diagnosed': 'string', 'child.diagnose': 'string', 'child.dateOfDiagnose': 'string', 'child.healthState': 'string', 'mother.name': 'string',
           'mother.jmbg': 'string', 'mother.citizenId': 'string', 'mother.issuedBy': 'string',  'mother.municipality': 'string',  'mother.city': 'string',  'mother.address': 'string',
           'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string',  'mother.working': 'string',  'mother.position': 'string',  'mother.qualifications': 'string',
@@ -412,7 +412,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           'family.familyPensionText': 'string', 'family.unemploymentBenefit': 'string', 'family.unemploymentBenefitText': 'string',
           'family.disabilityCompensation': 'string', 'family.disabilityCompensationText': 'string', 'family.compensationForTheSocialProtectionSystem': 'string', 'family.compensationForTheSocialProtectionSystemText': 'string',
           'family.otherIncome': 'string', 'family.otherIncomeText': 'string',
-          'family.familyResidence': 'string', 'family.housingConditions': 'string',  'family.residentialBuilding': 'string'}});
+          'family.familyResidence': 'string', 'family.housingConditions': 'string',  'family.residentialBuilding': 'string' */}});
 
         fs.writeFileSync(__dirname + '/socijalna-karta.xlsx', xls, 'binary');
         const file = __dirname + '/socijalna-karta.xlsx';
