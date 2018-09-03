@@ -401,8 +401,8 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               console.log( newData[key] ); // John, 30, true
           }
         const xls = json2xls(newData, {
-          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', /*'child.placeOfBirth': 'string', 'child.municipality': 'string', 'child.city': 'string', 'child.address': 'string', 'child.postNumber': 'string',
-          'child.goingToSchool': 'string', 'child.goingToKindergarden': 'string', 'child.diagnosed': 'string', 'child.diagnose': 'string', 'child.dateOfDiagnose': 'string', 'child.healthState': 'string', 'mother.name': 'string',
+          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Grad': 'string', 'Dijete.Opština': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
+          'Dijete.Ide u školu': 'string', 'Dijete.Ide u vrtić': 'string', 'Dijete.Dijagnostifikovana bolest': 'string', 'child.Dijagnoza': 'string', 'Dijete.Datum dijagnoze': 'string', 'Dijete.Zdravstveno stanje': 'string', /*'mother.name': 'string',
           'mother.jmbg': 'string', 'mother.citizenId': 'string', 'mother.issuedBy': 'string',  'mother.municipality': 'string',  'mother.city': 'string',  'mother.address': 'string',
           'mother.postNumber': 'string',  'mother.tel': 'string',  'mother.mob': 'string',  'mother.working': 'string',  'mother.position': 'string',  'mother.qualifications': 'string',
           'mother.nameOfEmployer': 'string',  'father.name': 'string', 'father.jmbg': 'string', 'father.citizenId': 'string', 'father.issuedBy': 'string',  'father.municipality': 'string',  'father.city': 'string',  'father.address': 'string',
