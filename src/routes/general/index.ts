@@ -276,32 +276,32 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           // values for the keys
           console.log( newData[key] ); // John, 30, true
         }
-        data.forEach((Scard: any) => {
-          Scard.child.dateOfBirth = String(Scard.child.dateOfBirth).split(' ')[2] + '-' + String(Scard.child.dateOfBirth).split(' ')[1] + '-' + String(Scard.child.dateOfBirth).split(' ')[3];
-          if (Scard.child.goingToSchool === false) {
-            Scard.child.goingToSchool = 'Ne';
-          } else if ( Scard.child.goingToSchool === true) {
-            Scard.child.goingToSchool = 'Da';
+          newData.forEach((Scard: any) => {
+          Scard.Dijete['Datum rodjenja'] = String(Scard.Dijete['Datum rodjenja']).split(' ')[2] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[1] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[3];
+          if (Scard.Dijete['Ide u školu'] === false) {
+            Scard.Dijete['Ide u školu'] = 'Ne';
+          } else if ( Scard.Dijete['Ide u školu'] === true) {
+            Scard.Dijete['Ide u školu'] = 'Da';
           }
-          if (Scard.child.goingToKindergarden === false) {
-            Scard.child.goingToKindergarden = 'Ne';
-          } else if ( Scard.child.goingToKindergarden === true) {
-            Scard.child.goingToKindergarden = 'Da';
+          if (Scard.Dijete['Ide u vrtić'] === false) {
+            Scard.Dijete['Ide u vrtić'] = 'Ne';
+          } else if ( Scard.Dijete['Ide u vrtić'] === true) {
+            Scard.Dijete['Ide u vrtić'] = 'Da';
           }
-          if (Scard.child.diagnosed === false) {
-            Scard.child.diagnosed = 'Ne';
-          } else if ( Scard.child.diagnosed === true) {
-            Scard.child.diagnosed = 'Da';
+          if (Scard.Dijete['Dijagnostifikovana bolest'] === false) {
+            Scard.Dijete['Dijagnostifikovana bolest'] = 'Ne';
+          } else if ( Scard.Dijete['Dijagnostifikovana bolest'] === true) {
+            Scard.Dijete['Dijagnostifikovana bolest'] = 'Da';
           }
           Scard.child.dateOfDiagnose = String(Scard.child.dateOfDiagnose).split(' ')[2] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[1] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[3];
-          if (Scard.child.healthState === 0) {
-            Scard.child.healthState = 'Izliječeno';
-          } else if (Scard.child.healthState === 1) {
-            Scard.child.healthState = 'Završilo sa liječenjem i održavanjem';
-          } else if (Scard.child.healthState === 2) {
-            Scard.child.healthState = 'Na održavanju';
-          } else if (Scard.child.healthState === 3) {
-            Scard.child.healthState = 'Ostalo';
+          if (Scard.Dijete['Datum dijagnoze'] === 0) {
+            Scard.Dijete['Datum dijagnoze'] = 'Izliječeno';
+          } else if (Scard.Dijete['Datum dijagnoze'] === 1) {
+            Scard.Dijete['Datum dijagnoze'] = 'Završilo sa liječenjem i održavanjem';
+          } else if (Scard.Dijete['Datum dijagnoze'] === 2) {
+            Scard.Dijete['Datum dijagnoze'] = 'Na održavanju';
+          } else if (Scard.Dijete['Datum dijagnoze'] === 3) {
+            Scard.Dijete['Datum dijagnoze'] = 'Ostalo';
           }
           if (Scard.mother.working === false) {
             Scard.mother.working = 'Ne';
