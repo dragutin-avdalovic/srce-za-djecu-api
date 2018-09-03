@@ -262,7 +262,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               else if (key === 'otherIncomeText') return 'Opis ostalih prihoda';
               else if (key === 'disabilityCompensation') return 'Dodatak na invalidnost';
               else if (key === 'disabilityCompensationText') return 'Opis dodatka na invalidnost';
-              else if (key === 'familyResidence') return 'Opis dodatka na invalidnost';
+              else if (key === 'familyResidence') return 'Mjesto stanovanja';
               else if (key === 'housingConditions') return 'Uslovi stanovanja';
               else if (key === 'residentialBuilding') return 'Stambena zgrada';
               else if (key === 'family') return 'Porodica';
@@ -293,7 +293,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           } else if ( Scard.Dijete['Dijagnostifikovana bolest'] === true) {
             Scard.Dijete['Dijagnostifikovana bolest'] = 'Da';
           }
-          Scard.child.dateOfDiagnose = String(Scard.child.dateOfDiagnose).split(' ')[2] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[1] + '-' + String(Scard.child.dateOfDiagnose).split(' ')[3];
+          Scard.Dijete['Datum dijagnoze'] = String(Scard.Dijete['Datum dijagnoze']).split(' ')[2] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[1] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[3];
           if (Scard.Dijete['Datum dijagnoze'] === 0) {
             Scard.Dijete['Datum dijagnoze'] = 'Izliječeno';
           } else if (Scard.Dijete['Datum dijagnoze'] === 1) {
@@ -303,101 +303,101 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           } else if (Scard.Dijete['Datum dijagnoze'] === 3) {
             Scard.Dijete['Datum dijagnoze'] = 'Ostalo';
           }
-          if (Scard.mother.working === false) {
-            Scard.mother.working = 'Ne';
-          } else if ( Scard.mother.working === true) {
-            Scard.mother.working = 'Da';
+          if (Scard.Majka['Radi'] === false) {
+            Scard.Majka['Radi'] = 'Ne';
+          } else if ( Scard.Majka['Radi'] === true) {
+            Scard.Majka['Radi'] = 'Da';
           }
-          if (Scard.father.working === false) {
-            Scard.father.working = 'Ne';
-          } else if ( Scard.father.working === true) {
-            Scard.father.working = 'Da';
+          if (Scard.Otac['Radi'] === false) {
+            Scard.Otac['Radi'] = 'Ne';
+          } else if ( Scard.Otac['Radi'] === true) {
+            Scard.Otac['Radi'] = 'Da';
           }
-          if (Scard.family.meritalStatus === 0) {
-            Scard.family.meritalStatus = 'Neoženjen/Neudata';
-          } else if (Scard.family.meritalStatus  === 1) {
-            Scard.family.meritalStatus = 'Oženjen/Udata';
-          } else if (Scard.family.meritalStatus  === 2) {
-            Scard.family.meritalStatus  = 'Udovac/ica';
-          } else if (Scard.family.meritalStatus  === 3) {
-            Scard.family.meritalStatus  = 'Razveden/a';
-          } else if (Scard.family.meritalStatus  === 4) {
-            Scard.family.meritalStatus  = 'Ostalo';
+          if (Scard.Porodica['Bračni status'] === 0) {
+            Scard.Porodica['Bračni status'] = 'Neoženjen/Neudata';
+          } else if (Scard.Porodica['Bračni status']  === 1) {
+            Scard.Porodica['Bračni status'] = 'Oženjen/Udata';
+          } else if (Scard.Porodica['Bračni status']  === 2) {
+            Scard.Porodica['Bračni status']  = 'Udovac/ica';
+          } else if (Scard.Porodica['Bračni status']  === 3) {
+            Scard.Porodica['Bračni status']  = 'Razveden/a';
+          } else if (Scard.Porodica['Bračni status']  === 4) {
+            Scard.Porodica['Bračni status']  = 'Ostalo';
           }
-          if (Scard.family.chronicalDecease === false) {
-            Scard.family.chronicalDecease = 'Ne';
-          } else if ( Scard.family.chronicalDecease === true) {
-            Scard.family.chronicalDecease = 'Da';
+          if (Scard.Porodica['Hronično oboljenje'] === false) {
+            Scard.Porodica['Hronično oboljenje'] = 'Ne';
+          } else if ( Scard.Porodica['Hronično oboljenje'] === true) {
+            Scard.Porodica['Hronično oboljenje'] = 'Da';
           }
-          if (Scard.family.disability === false) {
-            Scard.family.disability = 'Ne';
-          } else if ( Scard.family.disability === true) {
-            Scard.family.disability = 'Da';
+          if (Scard.Porodica['Invalidnost'] === false) {
+            Scard.Porodica['Invalidnost'] = 'Ne';
+          } else if ( Scard.Porodica['Invalidnost'] === true) {
+            Scard.Porodica['Invalidnost'] = 'Da';
           }
-          if (Scard.family.specialNeeds === false) {
-            Scard.family.specialNeeds = 'Ne';
-          } else if ( Scard.family.specialNeeds === true) {
-            Scard.family.specialNeeds = 'Da';
+          if (Scard.Porodica['Posebne potrebe']  === false) {
+            Scard.Porodica['Posebne potrebe'] = 'Ne';
+          } else if ( Scard.Porodica['Posebne potrebe'] === true) {
+            Scard.Porodica['Posebne potrebe'] = 'Da';
           }
-          if (Scard.family.familyRelations === 0) {
-            Scard.family.familyRelations = 'Dobri';
-          } else if (Scard.family.familyRelations  === 1) {
-            Scard.family.familyRelations = 'Odlični';
-          } else if (Scard.family.familyRelations  === 2) {
-            Scard.family.familyRelations  = 'Problematični';
+          if (Scard.Porodica['Odnosi u porodici'] === 0) {
+            Scard.Porodica['Odnosi u porodici'] = 'Dobri';
+          } else if (Scard.Porodica['Odnosi u porodici']  === 1) {
+            Scard.Porodica['Odnosi u porodici'] = 'Odlični';
+          } else if (Scard.Porodica['Odnosi u porodici']  === 2) {
+            Scard.Porodica['Odnosi u porodici']  = 'Problematični';
           }
-          if (Scard.family.incomeBySalary === false) {
-            Scard.family.incomeBySalary = 'Ne';
-          } else if ( Scard.family.incomeBySalary === true) {
-            Scard.family.incomeBySalary = 'Da';
+          if (Scard.Porodica['Prihod od plate'] === false) {
+            Scard.Porodica['Prihod od plate'] = 'Ne';
+          } else if ( Scard.Porodica['Prihod od plate'] === true) {
+            Scard.Porodica['Prihod od plate'] = 'Da';
           }
-          if (Scard.family.familyPension === false) {
-            Scard.family.familyPension = 'Ne';
-          } else if ( Scard.family.familyPension === true) {
-            Scard.family.familyPension = 'Da';
+          if (Scard.Porodica['Porodična penzija'] === false) {
+            Scard.Porodica['Porodična penzija'] = 'Ne';
+          } else if ( Scard.Porodica['Porodična penzija'] === true) {
+              Scard.Porodica['Porodična penzija'] = 'Da';
           }
-          if (Scard.family.unemploymentBenefit === false) {
-            Scard.family.unemploymentBenefit = 'Ne';
-          } else if ( Scard.family.unemploymentBenefit === true) {
-            Scard.family.unemploymentBenefit = 'Da';
+          if (Scard.Porodica['Dodatak na nezaposlenost'] === false) {
+            Scard.Porodica['Dodatak na nezaposlenost'] = 'Ne';
+          } else if ( Scard.Porodica['Dodatak na nezaposlenost'] === true) {
+            Scard.Porodica['Dodatak na nezaposlenost'] = 'Da';
           }
-          if (Scard.family.disabilityCompensation === false) {
-            Scard.family.disabilityCompensation = 'Ne';
-          } else if ( Scard.family.disabilityCompensation === true) {
-            Scard.family.disabilityCompensation = 'Da';
+          if (Scard.Porodica['Dodatak na invalidnost'] === false) {
+            Scard.Porodica['Dodatak na invalidnost'] = 'Ne';
+          } else if ( Scard.Porodica['Dodatak na invalidnost'] === true) {
+            Scard.Porodica['Dodatak na invalidnost'] = 'Da';
           }
-          if (Scard.family.compensationForTheSocialProtectionSystem === false) {
-            Scard.family.compensationForTheSocialProtectionSystem = 'Ne';
-          } else if ( Scard.family.compensationForTheSocialProtectionSystem === true) {
-            Scard.family.compensationForTheSocialProtectionSystem = 'Da';
+          if (Scard.Porodica['Kompenzacija za sistem socijalne zaštite'] === false) {
+            Scard.Porodica['Kompenzacija za sistem socijalne zaštite'] = 'Ne';
+          } else if ( Scard.Porodica['Kompenzacija za sistem socijalne zaštite'] === true) {
+            Scard.Porodica['Kompenzacija za sistem socijalne zaštite'] = 'Da';
           }
-          if (Scard.family.otherIncome === false) {
-            Scard.family.otherIncome = 'Ne';
-          } else if ( Scard.family.otherIncome === true) {
-            Scard.family.otherIncome = 'Da';
+          if (Scard.Porodica['Ostali prihodi'] === false) {
+            Scard.Porodica['Ostali prihodi'] = 'Ne';
+          } else if ( Scard.Porodica['Ostali prihodi'] === true) {
+            Scard.Porodica['Ostali prihodi'] = 'Da';
           }
-          if (Scard.family.familyResidence === 0) {
-            Scard.family.familyResidence = 'Kuća';
-          } else if (Scard.family.familyResidence  === 1) {
-            Scard.family.familyResidence = 'Stan';
-          } else if (Scard.family.familyResidence  === 2) {
-            Scard.family.familyResidence  = 'Ostalo';
+          if (Scard.Porodica['Mjesto stanovanja'] === 0) {
+            Scard.Porodica['Mjesto stanovanja'] = 'Kuća';
+          } else if (Scard.Porodica['Mjesto stanovanja']  === 1) {
+            Scard.Porodica['Mjesto stanovanja'] = 'Stan';
+          } else if (Scard.Porodica['Mjesto stanovanja']  === 2) {
+            Scard.Porodica['Mjesto stanovanja']  = 'Ostalo';
           }
-          if (Scard.family.housingConditions === 0) {
-            Scard.family.housingConditions = 'Dobri';
-          } else if (Scard.family.housingConditions  === 1) {
-            Scard.family.housingConditions = 'Odlični';
-          } else if (Scard.family.housingConditions  === 2) {
-            Scard.family.housingConditions  = 'Zadovoljavajući';
+          if (Scard.Porodica['Uslovi stanovanja'] === 0) {
+            Scard.Porodica['Uslovi stanovanja'] = 'Dobri';
+          } else if (Scard.Porodica['Uslovi stanovanja']  === 1) {
+            Scard.Porodica['Uslovi stanovanja'] = 'Odlični';
+          } else if (Scard.Porodica['Uslovi stanovanja']  === 2) {
+            Scard.Porodica['Uslovi stanovanja']  = 'Zadovoljavajući';
           }
-          if (Scard.family.residentialBuilding === 0) {
-            Scard.family.residentialBuilding = 'U sopstvenom vlasništvu';
-          } else if (Scard.family.residentialBuilding  === 1) {
-            Scard.family.residentialBuilding = 'Iznajmljen';
-          } else if (Scard.family.residentialBuilding  === 2) {
-            Scard.family.residentialBuilding  = 'Vlasništvu roditelja/srodnika';
-          } else if (Scard.family.residentialBuilding  === 3) {
-            Scard.family.residentialBuilding  = 'Ostalo';
+          if (Scard.Porodica['Stambena zgrada'] === 0) {
+            Scard.Porodica['Stambena zgrada'] = 'U sopstvenom vlasništvu';
+          } else if (Scard.Porodica['Stambena zgrada']  === 1) {
+            Scard.Porodica['Stambena zgrada'] = 'Iznajmljen';
+          } else if (Scard.Porodica['Stambena zgrada']  === 2) {
+            Scard.Porodica['Stambena zgrada']  = 'Vlasništvu roditelja/srodnika';
+          } else if (Scard.Porodica['Stambena zgrada']  === 3) {
+            Scard.Porodica['Stambena zgrada']  = 'Ostalo';
           }
         });
         const xls = json2xls(data, {
