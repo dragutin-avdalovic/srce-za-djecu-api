@@ -395,10 +395,8 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           }
         });
           for (const key in newData) {
-              // keys
-              console.log( key );  // name, age, isAdmin
-              // values for the keys
-              console.log( newData[key] ); // John, 30, true
+              console.log( key );
+              console.log( newData[key] );
           }
         const xls = json2xls(newData, {
           fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Grad': 'string', 'Dijete.Opština': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
@@ -408,12 +406,10 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           'Majka.Naziv poslodavca': 'string',
           'Otac.Ime': 'string', 'Otac.JMBG': 'string', 'Otac.Broj lične karte': 'string', 'Otac.Izdato od strane': 'string',  'Otac.Opština': 'string',  'Otac.Grad': 'string',  'Otac.Adresa': 'string',
           'Otac.Poštanski broj': 'string',  'Otac.Telefon': 'string',  'Otac.Mobilni telefon': 'string',  'Otac.Radi': 'string',  'Otac.Pozicija': 'string',  'Otac.Kvalifikacije': 'string', 'Otac.Naziv poslodavca': 'string',
-          /*'family.disabilityText': 'string', 'family.specialNeeds': 'string', 'family.familyRelations': 'string', 'family.incomeBySalary': 'string', 'family.incomeBySalaryText': 'string', 'family.familyPension': 'string',
-          'family.familyPensionText': 'string', 'family.unemploymentBenefit': 'string', 'family.unemploymentBenefitText': 'string',
-          'family.disabilityCompensation': 'string', 'family.disabilityCompensationText': 'string', 'family.compensationForTheSocialProtectionSystem': 'string', 'family.compensationForTheSocialProtectionSystemText': 'string',
-          'family.otherIncome': 'string', 'family.otherIncomeText': 'string',
-          'family.familyResidence': 'string', 'family.housingConditions': 'string',  'family.residentialBuilding': 'string' */}});
-
+          'Porodica.Bračni status': 'string', 'Porodica.Hronično oboljenje': 'string', 'Porodica.Opis hroničnog oboljenja': 'string', 'Porodica.Invalidnost': 'string', 'Porodica.Opis invalidnosti': 'string', 'Porodica.Posebne potrebe': 'string',
+          'Porodica.Odnosi u porodici': 'string', 'Porodica.Prihod od plate': 'string', 'Porodica.Opis prihoda od plate': 'string', 'Porodica.Opis porodične penzije': 'string', 'Porodica.Dodatak na nezaposlenost': 'string', 'Porodica.Opis dodatka na nezaposlenost': 'string',
+          'Porodica.Dodatak na invalidnost': 'string', 'Porodica.Opis dodatka na invalidnost': 'string',  'Porodica.Kompenzacija za sistem socijalne zaštite': 'string',  'Porodica.Opis kompenzacije za sistem socijalne zaštite': 'string',  'Porodica.Ostali prihodi': 'string',
+          'Porodica.Opis ostalih prihoda': 'string', 'Porodica.Mjesto stanovanja': 'string', 'Porodica.Uslovi stanovanja': 'string', 'Porodica.Vrsta rezidencije': 'string'}});
         fs.writeFileSync(__dirname + '/socijalna-karta.xlsx', xls, 'binary');
         const file = __dirname + '/socijalna-karta.xlsx';
         res.download(file);
