@@ -160,27 +160,36 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         res.json('error happened');
       } else {
           data.forEach((card: any) => {
-          card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
-          card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
-          if (card.type === 1) {
+              console.log(card.dateOfBirth);
+          if (card.dateOfBirth !== null) {
+              card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
+          } else {
+              card.dateOfBirth = '';
+          }
+          if (card.dateOfDiagnose !== null) {
+              card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
+          } else {
+              card.dateOfDiagnose = '';
+          }
+          if (card.type === 0) {
             card.type = 'Roditelj';
-          } else if (card.type === 2) {
+          } else if (card.type === 1) {
             card.type = 'Prijatelj';
-          } else if (card.type === 3) {
+          } else if (card.type === 2) {
             card.type = 'Medicinsko osoblje';
-          } else if (card.type === 4) {
+          } else if (card.type === 3) {
             card.type = 'Volonter';
-          } else if (card.type === 5) {
+          } else if (card.type === 4) {
             card.type = 'Osoblje';
           }
         });
         const newKeys = [
+          'Tip',
           'Ime i prezime',
           'JMBG',
           'Adresa',
           'Telefon',
           'E-mail',
-          'Tip',
           'Ime djeteta',
           'Datum rodjenja',
           'Dijagnoza',
@@ -198,12 +207,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const xls = json2xls(data, {
           fields: {
+            Tip: 'string',
             'Ime i prezime': 'string',
             'JMBG': 'string',
             Adresa: 'string',
             Telefon: 'string',
             'E-mail': 'string',
-            Tip: 'string',
             'Ime djeteta': 'string',
             'Datum rodjenja': 'string',
             Dijagnoza: 'string',
