@@ -113,22 +113,23 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const newKeys = [
           'Ime i prezime',
-          'Adresa',
           'Datum rodjenja',
+          'Adresa',
+          'E-mail',
+          'Kontakt telefon',
           'Strucna sprema',
           'Zanimanje',
-            'Kontakt telefon',
-            'E-mail',
-            'Volontirao prije',
+          'Volontirao prije',
           'Broj sati',
           'Volontirani poslovi'
         ];
-        data.forEach((donator: any) => {
+        data.forEach((volunteer: any) => {
           let i = 0;
           let old_key = '';
+          console.log(volunteer)
           newKeys.forEach((new_key: any) => {
-            old_key = Object.keys(donator)[i];
-            Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
+            old_key = Object.keys(volunteer)[i];
+            Object.defineProperty(volunteer, new_key, Object.getOwnPropertyDescriptor(volunteer, old_key));
             i++;
           });
         });
