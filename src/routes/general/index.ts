@@ -67,7 +67,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             Grad: 'string',
             'Iznos (KM)': 'string',
             'Datum donacije': 'string',
-            Tip: 'string',
             Svrha: 'string',
           }
         });
@@ -128,7 +127,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         data.forEach((volunteer: any) => {
           let i = 0;
           let old_key = '';
-          console.log(volunteer)
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(volunteer)[i];
             Object.defineProperty(volunteer, new_key, Object.getOwnPropertyDescriptor(volunteer, old_key));
