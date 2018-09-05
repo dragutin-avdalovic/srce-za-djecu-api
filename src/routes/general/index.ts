@@ -67,6 +67,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             Grad: 'string',
             'Iznos (KM)': 'string',
             'Datum donacije': 'string',
+            Tip: 'string',
             Svrha: 'string',
           }
         });
@@ -161,15 +162,15 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           data.forEach((card: any) => {
           card.dateOfBirth = String(card.dateOfBirth).split(' ')[2] + '-' + String(card.dateOfBirth).split(' ')[1] + '-' + String(card.dateOfBirth).split(' ')[3];
           card.dateOfDiagnose = String(card.dateOfDiagnose).split(' ')[2] + '-' + String(card.dateOfDiagnose).split(' ')[1] + '-' + String(card.dateOfDiagnose).split(' ')[3];
-          if (card.type === 0) {
+          if (card.type === 1) {
             card.type = 'Roditelj';
-          } else if (card.type === 1) {
-            card.type = 'Prijatelj';
           } else if (card.type === 2) {
-            card.type = 'Medicinsko osoblje';
+            card.type = 'Prijatelj';
           } else if (card.type === 3) {
-            card.type = 'Volonter';
+            card.type = 'Medicinsko osoblje';
           } else if (card.type === 4) {
+            card.type = 'Volonter';
+          } else if (card.type === 5) {
             card.type = 'Osoblje';
           }
         });
@@ -185,12 +186,13 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
           'Dijagnoza',
           'Datum dijagnoze'
         ];
-        data.forEach((donator: any) => {
+        data.forEach((accessCard: any) => {
           let i = 0;
           let old_key = '';
+          console.log(accessCard);
           newKeys.forEach((new_key: any) => {
-            old_key = Object.keys(donator)[i];
-            Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
+            old_key = Object.keys(accessCard)[i];
+            Object.defineProperty(accessCard, new_key, Object.getOwnPropertyDescriptor(accessCard, old_key));
             i++;
           });
         });
