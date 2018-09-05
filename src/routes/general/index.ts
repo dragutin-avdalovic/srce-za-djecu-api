@@ -26,30 +26,31 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         res.json('error happened');
       } else {
         data.forEach((donator: any) => {
-          if (donator.type === 0) {
+          if (donator.type === 1) {
             donator.type = 'Institucija';
-          } else if (donator.type === 1) {
-            donator.type = 'Fizičko lice';
           } else if (donator.type === 2) {
+            donator.type = 'Fizičko lice';
+          } else if (donator.type === 3) {
             donator.type = 'Pravno lice';
           }
           donator.date = String(donator.date).split(' ')[2] + '-' + String(donator.date).split(' ')[1] + '-' + String(donator.date).split(' ')[3];
           donator.amount = donator.amount + ' KM';
         });
         const newKeys = [
-          'Osnovni podaci',
-          'E-mail',
-          'Grad',
-          'Adresa',
-          'Naziv kompanije',
-          'Datum donacije',
-          'Tip',
-          'Svrha',
-          'Iznos (KM)'
+        'Tip',
+        'Naziv kompanije',
+        'Osnovni podaci',
+        'E-mail',
+        'Adresa',
+        'Grad',
+        'Iznos (KM)',
+        'Datum donacije',
+        'Svrha',
         ];
         data.forEach((donator: any) => {
           let i = 0;
           let old_key = '';
+          console.log(donator);
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(donator)[i];
             Object.defineProperty(donator, new_key, Object.getOwnPropertyDescriptor(donator, old_key));
@@ -58,15 +59,15 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const xls = json2xls(data, {
           fields: {
+            Tip: 'string',
+            'Naziv kompanije': 'string',
             'Osnovni podaci': 'string',
             'E-mail': 'string',
-            Grad: 'string',
             Adresa: 'string',
-            'Naziv kompanije': 'string',
+            Grad: 'string',
+            'Iznos (KM)': 'string',
             'Datum donacije': 'string',
-            Tip: 'string',
             Svrha: 'string',
-            'Iznos (KM)': 'string'
           }
         });
         fs.writeFileSync(__dirname + '/donatori.xlsx', xls, 'binary');
