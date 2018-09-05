@@ -113,13 +113,13 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const newKeys = [
           'Ime i prezime',
-          'Datum rodjenja',
           'Adresa',
-          'E-mail',
-          'Kontakt telefon',
+          'Datum rodjenja',
           'Strucna sprema',
           'Zanimanje',
-          'Volontirao prije',
+            'Kontakt telefon',
+            'E-mail',
+            'Volontirao prije',
           'Broj sati',
           'Volontirani poslovi'
         ];
@@ -418,7 +418,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
   } else {
     res.json('no such file');
   }
-
 });
 
 // file upload const
