@@ -81,6 +81,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         res.json(err);
       } else {
         data.forEach((volunteer: any) => {
+          console.log(volunteer);
           volunteer.dateOfBirth = String(volunteer.dateOfBirth).split(' ')[2] + '-' + String(volunteer.dateOfBirth).split(' ')[1] + '-' + String(volunteer.dateOfBirth).split(' ')[3];
           if (volunteer.volunteeredBefore === true) {
             volunteer.volunteeredBefore = 'Da';
@@ -114,12 +115,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         });
         const newKeys = [
           'Ime i prezime',
-          'Datum rodjenja',
           'Adresa',
           'E-mail',
-          'Kontakt telefon',
+          'Datum rodjenja',
           'Strucna sprema',
           'Zanimanje',
+          'Kontakt telefon',
           'Volontirao prije',
           'Broj sati',
           'Volontirani poslovi'
@@ -136,12 +137,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         const xls  = json2xls(data, {
           fields: {
             'Ime i prezime': 'string',
-            'Datum rodjenja': 'string',
             'Adresa': 'string',
             'E-mail': 'string',
-            'Kontakt telefon': 'string',
+            'Datum rodjenja': 'string',
             'Strucna sprema': 'string',
             'Zanimanje': 'string',
+            'Kontakt telefon': 'string',
             'Volontirao prije': 'string',
             'Broj sati': 'string',
             'Volontirani poslovi': 'string'}
@@ -196,7 +197,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
         data.forEach((accessCard: any) => {
           let i = 0;
           let old_key = '';
-          console.log(accessCard);
           newKeys.forEach((new_key: any) => {
             old_key = Object.keys(accessCard)[i];
             Object.defineProperty(accessCard, new_key, Object.getOwnPropertyDescriptor(accessCard, old_key));
