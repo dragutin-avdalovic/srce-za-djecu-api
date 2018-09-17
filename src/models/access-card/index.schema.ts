@@ -11,7 +11,6 @@ const accessCardSchema = new mongoose.Schema({
   },
   jmbg: {
     type: Number,
-    unique : true,
     required : true,
     index: true
   },
@@ -22,7 +21,6 @@ const accessCardSchema = new mongoose.Schema({
   phone: String,
   email: {
     type: String,
-    unique : true,
     required : true,
     index: true
   },
