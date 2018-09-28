@@ -235,7 +235,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               else if (key === 'jmbg') return 'JMBG';
               else if (key === 'dateOfBirth') return 'Datum rodjenja';
               else if (key === 'placeOfBirth') return 'Mjesto rodjenja';
-              else if (key === 'municipality') return 'Opština';
+              else if (key === 'municipality') return 'Općina';
               else if (key === 'city') return 'Grad';
               else if (key === 'address') return 'Adresa';
               else if (key === 'postNumber') return 'Poštanski broj';
@@ -410,7 +410,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               console.log( newData[key] );
           }
         const xls = json2xls(newData, {
-          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Grad': 'string', 'Dijete.Opština': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
+          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Općina': 'string', 'Dijete.Grad': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
           'Dijete.Ide u školu': 'string', 'Dijete.Ide u vrtić': 'string', 'Dijete.Dijagnostifikovana bolest': 'string', 'Dijete.Dijagnoza': 'string', 'Dijete.Datum dijagnoze': 'string', 'Dijete.Zdravstveno stanje': 'string', 'Majka.Ime': 'string',
           'Majka.JMBG': 'string', 'Majka.Broj lične karte': 'string', 'Majka.Izdato od strane': 'string',  'Majka.Opština': 'string',  'Majka.Grad': 'string',  'Majka.Adresa': 'string',
           'Majka.Poštanski broj': 'string',  'Majka.Telefon': 'string',  'Majka.Mobilni telefon': 'string',  'Majka.Radi': 'string',  'Majka.Pozicija': 'string',  'Majka.Kvalifikacije': 'string',
