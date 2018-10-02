@@ -235,13 +235,12 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               else if (key === 'jmbg') return 'JMBG';
               else if (key === 'dateOfBirth') return 'Datum rodjenja';
               else if (key === 'placeOfBirth') return 'Mjesto rodjenja';
-              else if (key === 'municipality') return 'Općina';
-              else if (key === 'city') return 'Grad';
+              else if (key === 'municipality') return 'Grad';
+              else if (key === 'city') return 'Općina';
               else if (key === 'address') return 'Adresa';
               else if (key === 'postNumber') return 'Poštanski broj';
               else if (key === 'goingToSchool') return 'Ide u školu';
               else if (key === 'goingToKindergarden') return 'Ide u vrtić';
-              else if (key === 'diagnosed') return 'Dijagnostifikovana bolest';
               else if (key === 'diagnose') return 'Dijagnoza';
               else if (key === 'dateOfDiagnose') return 'Datum dijagnoze';
               else if (key === 'healthState') return 'Zdravstveno stanje';
@@ -282,6 +281,7 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               return key;
           });
           newData.forEach((Scard: any) => {
+          delete Scard.Dijete.diagnosed;
           Scard.Dijete['Datum rodjenja'] = String(Scard.Dijete['Datum rodjenja']).split(' ')[2] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[1] + '-' + String(Scard.Dijete['Datum rodjenja']).split(' ')[3];
           if (Scard.Dijete['Ide u školu'] === false) {
             Scard.Dijete['Ide u školu'] = 'Ne';
@@ -292,11 +292,6 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
             Scard.Dijete['Ide u vrtić'] = 'Ne';
           } else if ( Scard.Dijete['Ide u vrtić'] === true) {
             Scard.Dijete['Ide u vrtić'] = 'Da';
-          }
-          if (Scard.Dijete['Dijagnostifikovana bolest'] === false) {
-            Scard.Dijete['Dijagnostifikovana bolest'] = 'Ne';
-          } else if ( Scard.Dijete['Dijagnostifikovana bolest'] === true) {
-            Scard.Dijete['Dijagnostifikovana bolest'] = 'Da';
           }
           Scard.Dijete['Datum dijagnoze'] = String(Scard.Dijete['Datum dijagnoze']).split(' ')[2] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[1] + '-' + String(Scard.Dijete['Datum dijagnoze']).split(' ')[3];
               if (Scard.Dijete['Zdravstveno stanje'] === 0) {
