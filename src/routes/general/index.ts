@@ -409,9 +409,10 @@ router.get('/download/:segment/:type', async (req: Request, res: Response) => {
               console.log( key );
               console.log( newData[key] );
           }
+          console.log(newData);
         const xls = json2xls(newData, {
-          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Općina': 'string', 'Dijete.Grad': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
-          'Dijete.Ide u školu': 'string', 'Dijete.Ide u vrtić': 'string', 'Dijete.Dijagnostifikovana bolest': 'string', 'Dijete.Dijagnoza': 'string', 'Dijete.Datum dijagnoze': 'string', 'Dijete.Zdravstveno stanje': 'string', 'Majka.Ime': 'string',
+          fields: {'Dijete.Ime': 'string',  'Dijete.JMBG': 'string', 'Dijete.Datum rodjenja': 'string', 'Dijete.Mjesto rodjenja': 'string', 'Dijete.Grad': 'string', 'Dijete.Općina': 'string', 'Dijete.Adresa': 'string', 'Dijete.Poštanski broj': 'string',
+          'Dijete.Ide u školu': 'string', 'Dijete.Ide u vrtić': 'string', 'Dijete.Dijagnoza': 'string', 'Dijete.Datum dijagnoze': 'string', 'Dijete.Zdravstveno stanje': 'string', 'Majka.Ime': 'string',
           'Majka.JMBG': 'string', 'Majka.Broj lične karte': 'string', 'Majka.Izdato od strane': 'string',  'Majka.Opština': 'string',  'Majka.Grad': 'string',  'Majka.Adresa': 'string',
           'Majka.Poštanski broj': 'string',  'Majka.Telefon': 'string',  'Majka.Mobilni telefon': 'string',  'Majka.Radi': 'string',  'Majka.Pozicija': 'string',  'Majka.Kvalifikacije': 'string',
           'Majka.Naziv poslodavca': 'string',
